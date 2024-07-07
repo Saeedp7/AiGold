@@ -1,0 +1,88 @@
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*.pyc
+__pycache__/
+*.so
+
+# C extensions
+*.c
+*.o
+*.a
+*.dylib
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+*.sqlite3
+
+# If you are using SQLite, it's often better to ignore the database file
+# If you are using another database system, update the file extension accordingly
+
+# Django migrations
+*/migrations/*
+*.migration/
+
+# Static files
+staticfiles/
+static/
+media/
+
+# Jupyter Notebook files
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Python virtual environments
+.venv/
+
+# Environments
+.env
+.env.local
+.env.production
+.env.staging
+.env.test
+.env.*.bkp
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+*.lnk
+
+# Sensitive data
+*.pem
+*.key
+*.crt
+
+# Coverage reports
+.coverage
+*.cover
+.hypothesis/
+
+# Tests
+.pytest_cache/
+.tox/
+
+# CI/CD
+.circleci/
+*.yml
+*.yaml
