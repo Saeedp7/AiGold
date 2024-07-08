@@ -13,4 +13,5 @@ urlpatterns = [
     path('products/<int:pk>/reviews/', views.ReviewCreateView.as_view(), name='product-review-create'),
     path('products/<int:pk>/ratings/', views.RatingCreateView.as_view(), name='product-rating-create'),
     path('gold-price/', views.GoldPriceView.as_view(), name='gold-price'),
+    path('day-price/', views.DailyPriceView.as_view(), name='daily-price'),
 ]

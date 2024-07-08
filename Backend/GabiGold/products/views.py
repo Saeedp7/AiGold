@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, filters, status
-from .models import Category, Product, ProductImage, Review, Rating
-from .serializers import CategorySerializer, ProductSerializer, ProductCreateUpdateSerializer, ReviewSerializer, RatingSerializer
+from .models import Category, Product, ProductImage, Review, Rating, GoldenPrice
+from .serializers import CategorySerializer, ProductSerializer, ProductCreateUpdateSerializer, ReviewSerializer, RatingSerializer, GoldenPriceSerial
 from .utils import get_latest_gold_price
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
@@ -113,6 +113,13 @@ class RatingCreateView(generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 class GoldPriceView(APIView):
+    permission_classes = [permissions.AllowAny]
     def get(self, request):
         gold_price_per_gram = get_latest_gold_price()
         return Response({'gold_price_per_gram': gold_price_per_gram})
+    
+class DailyPriceView(APIView):
+    def get(self, request):
+        prices = GoldenPrice.objects.all()
+        serializer = GoldenPriceSerial(prices, many=True)
+        return Response(serializer.data)
