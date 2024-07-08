@@ -1,7 +1,7 @@
 # tasks.py
 from celery import shared_task
 import requests
-from .models import GoldPrice
+from .models import GoldenPrice
 
 @shared_task
 def fetch_gold_price():
@@ -10,7 +10,7 @@ def fetch_gold_price():
         data = response.json().get('data', [])
         for item in data:
             if item['slug'] == 'TALA_18':
-                GoldPrice.objects.update_or_create(
+                GoldenPrice.objects.update_or_create(
                     slug=item['slug'],
                     defaults={
                         'name': item['name'],

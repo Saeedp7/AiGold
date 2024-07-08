@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     meta_keywords = models.TextField(blank=True)
