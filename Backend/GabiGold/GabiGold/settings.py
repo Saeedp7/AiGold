@@ -35,14 +35,7 @@ BASE_URL = 'http://yourdomain.com'
 AUTH_USER_MODEL = "Users.UserModel"
 # Application definition
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
-CELERY_BEAT_SCHEDULE = {
-    'fetch_gold_price_every_hour': {
-        'task': 'your_app.tasks.fetch_gold_price',
-        'schedule': 60.0,
-    },
-}
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -137,6 +130,8 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
     'JTI_CLAIM': 'jti',
+    'USER_ID_FIELD': 'user_id',
+    'USER_ID_CLAIM': 'user_id',
 }
 
 # Password validation

@@ -4,6 +4,7 @@ from products.models import Product
 from products.utils import get_latest_gold_price
 from products.tasks import fetch_gold_price
 from decimal import Decimal
+import math
 
 class Command(BaseCommand):
     help = 'Update product prices based on the current gold price.'
@@ -23,7 +24,7 @@ class Command(BaseCommand):
                     stone_price = product.stone_weight * product.stone_price
                     total_price += stone_price
 
-                product.price = total_price
+                product.price = math.ceil(total_price)
                 product.save()
 
             self.stdout.write(self.style.SUCCESS('Successfully updated product prices'))

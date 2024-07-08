@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
+import math
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -55,7 +56,7 @@ class Product(models.Model):
                 stone_price = self.stone_weight * self.stone_price
                 total_price += stone_price
 
-            return total_price
+            return math.ceil(total_price)
         else:
             return 0
 

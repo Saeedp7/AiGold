@@ -102,18 +102,19 @@ class LoginSerializer(serializers.Serializer):
         password = data.get('password')
 
         if phone_number and password:
-            user = authenticate(request=self.context.get('request'), phone_number=phone_number, password=password)
+            user = authenticate(phone_number=phone_number, password=password)
             if not user:
                 raise serializers.ValidationError("Invalid phone number or password")
+            data['user'] = user
         else:
             raise serializers.ValidationError("Must include 'phone_number' and 'password'")
-
-        data['user'] = user
         return data
 
     def to_representation(self, instance):
+        user = instance if isinstance(instance, UserModel) else None
+        if not user:
+            raise serializers.ValidationError("User instance is invalid")
         representation = super().to_representation(instance)
-        user = self.context['request'].user
         representation['phone_number'] = user.phone_number
         representation['code_melli'] = user.code_melli
         representation['first_name'] = user.first_name
@@ -127,7 +128,7 @@ class LoginSerializer(serializers.Serializer):
         representation['profile_picture'] = user.profile_picture.url if user.profile_picture else None
         representation['user_register_at'] = user.user_register_at
         return representation
-
+    
 
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
