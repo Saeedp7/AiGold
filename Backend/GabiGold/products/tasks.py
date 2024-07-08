@@ -1,4 +1,3 @@
-from celery import shared_task
 import requests
 from .models import GoldenPrice
 from datetime import datetime
