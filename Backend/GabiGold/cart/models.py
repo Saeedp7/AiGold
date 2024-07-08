@@ -5,8 +5,8 @@ from django.utils import timezone
 from zarinpal import ZarinPal
 
 class CartItem(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='user_id')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, db_column='product_id')
     quantity = models.PositiveIntegerField(default=1)
     weight = models.DecimalField(max_digits=10, decimal_places=2)
     wage = models.DecimalField(max_digits=10, decimal_places=2)
@@ -14,7 +14,7 @@ class CartItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.quantity} of {self.product.name}'
+        return f'{self.quantity} of {self.product.name} Done'
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

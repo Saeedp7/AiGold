@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CartItem, Order, OrderItem, DiscountCode
+from .models import CartItem, Order, OrderItem, Discount
 from products.models import Product
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -30,5 +30,5 @@ class OrderSerializer(serializers.ModelSerializer):
     
 class DiscountCodeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DiscountCode
+        model = Discount
         fields = '__all__'

@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions, filters, status
 from .models import Category, Product, ProductImage, Review, Rating
 from .serializers import CategorySerializer, ProductSerializer, ProductCreateUpdateSerializer, ReviewSerializer, RatingSerializer
-from .utils import get_gold_price
+from .utils import get_latest_gold_price
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -114,5 +114,5 @@ class RatingCreateView(generics.CreateAPIView):
 
 class GoldPriceView(APIView):
     def get(self, request):
-        gold_price_per_gram = get_gold_price()
+        gold_price_per_gram = get_latest_gold_price()
         return Response({'gold_price_per_gram': gold_price_per_gram})

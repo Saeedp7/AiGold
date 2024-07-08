@@ -1,11 +1,12 @@
 from rest_framework import status, generics
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from .models import CartItem, Order, OrderItem, Discount
-from .serializers import CartItemSerializer, OrderSerializer
+from .serializers import CartItemSerializer, OrderSerializer, DiscountCodeSerializer
 from django.utils import timezone
-from zarinpal import Zarinpal  # Assuming Zarinpal library for payment integration is correctly configured
+from zarinpal import ZarinPal  # Assuming Zarinpal library for payment integration is correctly configured
 from django.conf import settings
 
 class CartView(generics.GenericAPIView):
@@ -159,7 +160,7 @@ class OrderDetailView(generics.RetrieveAPIView):
 class AdminOrderUpdateView(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     def put(self, request, *args, **kwargs):
         order = self.get_object()
@@ -168,3 +169,13 @@ class AdminOrderUpdateView(generics.UpdateAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class DiscountCodeListCreateView(generics.ListCreateAPIView):
+    queryset = Discount.objects.all()
+    serializer_class = DiscountCodeSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+class DiscountCodeDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Discount.objects.all()
+    serializer_class = DiscountCodeSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]

@@ -57,8 +57,8 @@ INSTALLED_APPS = [
     'django_filters',
     'django_cron',
     'Users',
+    'Cart',
     'products',
-    'cart',
 ]
 
 MIDDLEWARE = [

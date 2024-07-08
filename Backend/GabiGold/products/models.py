@@ -13,6 +13,7 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
+    product_id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
