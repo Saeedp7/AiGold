@@ -14,7 +14,7 @@ code_melli_regex = RegexValidator(
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, phone_number, password=None):
+    def create_user(self, phone_number, code_melli,password=None, **extra_fields):
         if not phone_number:
             raise ValueError("Phone Number Required")
         if not code_melli:
@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, phone_number, password, code_melli):
+    def create_superuser(self, phone_number, password, code_melli, **extra_fields):
         user = self.create_user(phone_number=phone_number, password=password, code_melli=code_melli)
         user.is_active = True
         user.is_staff = True

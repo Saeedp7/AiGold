@@ -35,12 +35,12 @@ BASE_URL = 'http://yourdomain.com'
 AUTH_USER_MODEL = "Users.UserModel"
 # Application definition
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
 CELERY_BEAT_SCHEDULE = {
     'fetch_gold_price_every_hour': {
         'task': 'your_app.tasks.fetch_gold_price',
-        'schedule': 3600.0,
+        'schedule': 60.0,
     },
 }
 

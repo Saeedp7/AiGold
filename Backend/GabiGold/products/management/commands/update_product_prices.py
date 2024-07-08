@@ -1,27 +1,29 @@
 import requests
 from django.core.management.base import BaseCommand
-from .models import Product
-from .utils import get_gold_price
+from products.models import Product
+from products.utils import get_latest_gold_price
+from products.tasks import fetch_gold_price
+from decimal import Decimal
 
 class Command(BaseCommand):
     help = 'Update product prices based on the current gold price.'
-
+    fetch_gold_price()
     def handle(self, *args, **kwargs):
-        gold_price_per_gram = get_gold_price()
+        gold_price_per_gram = get_latest_gold_price()
         if gold_price_per_gram is not None:
             products = Product.objects.all()
             for product in products:
                 product_price = product.weight * gold_price_per_gram
                 wage = (product.wages / 100) * product_price
-                income = (product_price + wage) * 0.07
-                tax = (income + wage) * 0.09
+                income = (product_price + wage) * Decimal(0.07)
+                tax = (income + wage) * Decimal(0.09)
                 total_price = product_price + wage + income + tax
 
                 if product.has_stone:
                     stone_price = product.stone_weight * product.stone_price
                     total_price += stone_price
 
-                product.calculated_price = total_price
+                product.price = total_price
                 product.save()
 
             self.stdout.write(self.style.SUCCESS('Successfully updated product prices'))

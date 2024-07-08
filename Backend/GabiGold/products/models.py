@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from decimal import Decimal
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -33,15 +33,22 @@ class Product(models.Model):
     thumbnail = models.ImageField(upload_to='products/thumbnails/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # New field for storing calculated price
+
+
+    def save(self, *args, **kwargs):
+        # Calculate the price
+        self.price = self.calculated_price
+        super().save(*args, **kwargs)
 
     @property
     def calculated_price(self):
-        gold_price_per_gram = get_latest_gold_price()
+        gold_price_per_gram = Product.get_latest_gold_price()
         if gold_price_per_gram is not None:
             product_price = self.weight * gold_price_per_gram
             wage = (self.wages / 100) * product_price
-            income = (product_price + wage) * 0.07
-            tax = (income + wage) * 0.09
+            income = (product_price + wage) * Decimal(0.07)
+            tax = (income + wage) * Decimal(0.09)
             total_price = product_price + wage + income + tax
 
             if self.has_stone:
@@ -54,7 +61,7 @@ class Product(models.Model):
 
     def get_latest_gold_price():
         try:
-            gold_price = GoldenPrice.objects.filter(slug='TALA_18').latest('timestamp')
+            gold_price = GoldenPrice.objects.filter(slug='18ayar').latest('timestamp')
             return gold_price.price
         except GoldenPrice.DoesNotExist:
             return None
