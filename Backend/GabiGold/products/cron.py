@@ -1,14 +1,26 @@
-import requests
-from django.core.management.base import BaseCommand
+from django_cron import CronJobBase, Schedule
+from .tasks import fetch_gold_price
 from products.models import Product
 from products.utils import get_latest_gold_price
 from decimal import Decimal
 import math
 
-class Command(BaseCommand):
-    help = 'Update product prices based on the current gold price.'
+class FetchGoldPriceCronJob(CronJobBase):
+    RUN_EVERY_MINS = 60  # every hour
 
-    def handle(self, *args, **kwargs):
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'products.fetch_gold_price_cron_job'  # a unique code
+
+    def do(self):
+        fetch_gold_price()
+
+class FetchProductPriceCronJob(CronJobBase):
+    RUN_EVERY_MINS = 60  # every hour
+
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'products.fetch_products_price_cron_job'  # a unique code
+
+    def do(self):
         gold_price_per_gram = get_latest_gold_price()
         if gold_price_per_gram is not None:
             products = Product.objects.all()

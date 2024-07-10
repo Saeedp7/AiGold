@@ -12,6 +12,14 @@ code_melli_regex = RegexValidator(
     regex=r"\d{10}", message="Melli Code Must Be 10 Digits Only."
 )
 
+def validate_file_size(value):
+    filesize = value.size
+
+    if filesize > 10485760:  # 10 MB limit
+        raise ValidationError("The maximum file size that can be uploaded is 10 MB")
+    else:
+        return value
+    
 class UserManager(BaseUserManager):
 
     def create_user(self, phone_number, code_melli,password=None, **extra_fields):
@@ -54,7 +62,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     otp_expiry = models.DateTimeField(blank=True, null=True)
     max_otp_try = models.IntegerField(default=settings.MAX_OTP_TRY)
     otp_verified = models.BooleanField(default=False)
-    profile_picture = models.ImageField(blank=True, null=True, upload_to='profile_pictures/')
+    profile_picture = models.ImageField(blank=True, null=True, upload_to='profile_pictures/', validators=[validate_file_size])
 
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)

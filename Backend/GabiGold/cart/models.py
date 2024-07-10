@@ -15,6 +15,11 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f'{self.quantity} of {self.product.name} Done'
+    
+    def save(self, *args, **kwargs):
+        if not self.product.is_available:
+            raise ValueError(f"Product {self.product.name} is not available")
+        super().save(*args, **kwargs)
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

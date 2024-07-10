@@ -9,6 +9,12 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = ['id', 'product', 'quantity', 'weight', 'wage']
 
+    def validate(self, data):
+        product = data.get('product')
+        if not product.is_available:
+            raise serializers.ValidationError(f"Product {product.name} is not available")
+        return data
+
 class OrderItemSerializer(serializers.ModelSerializer):
     product = serializers.ReadOnlyField(source='product.name')
 

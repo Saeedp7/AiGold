@@ -2,6 +2,14 @@ from django.db import models
 from django.conf import settings
 from Cart.models import Order
 
+def validate_file_size(value):
+    filesize = value.size
+
+    if filesize > 10485760:  # 10 MB limit
+        raise ValidationError("The maximum file size that can be uploaded is 10 MB")
+    else:
+        return value
+    
 class Ticket(models.Model):
     CATEGORY_CHOICES = [
         ('order', 'Not Completed Orders'),
@@ -38,7 +46,7 @@ class TicketMessage(models.Model):
 
 class Attachment(models.Model):
     ticket_message = models.ForeignKey(TicketMessage, related_name='attachments', on_delete=models.CASCADE)
-    file = models.FileField(upload_to='attachments/')
+    file = models.FileField(upload_to='attachments/', validators=[validate_file_size])
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

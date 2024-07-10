@@ -8,6 +8,7 @@ from .serializers import CartItemSerializer, OrderSerializer, DiscountCodeSerial
 from django.utils import timezone
 from zarinpal import ZarinPal  # Assuming Zarinpal library for payment integration is correctly configured
 from django.conf import settings
+from products.models import Product
 
 class CartView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -20,6 +21,10 @@ class CartView(generics.GenericAPIView):
     def post(self, request):
         product_id = request.data.get('product_id')
         product = get_object_or_404(Product, id=product_id)
+
+        if not product.is_available:
+            return Response({'error': f"Product {product.name} is not available"}, status=status.HTTP_400_BAD_REQUEST)
+
         weight = request.data.get('weight')
         wage = request.data.get('wage')
         cart_item, created = CartItem.objects.get_or_create(user=request.user, product=product, weight=weight, wage=wage)
@@ -56,6 +61,10 @@ class CheckoutView(generics.GenericAPIView):
         cart_items = CartItem.objects.filter(user=request.user)
         if not cart_items:
             return Response({"detail": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        for item in cart_items:
+            if not item.product.is_available:
+                return Response({"detail": f"Product {item.product.name} is not available"}, status=status.HTTP_400_BAD_REQUEST)
 
         total_price = sum(item.product.calculated_price * item.quantity for item in cart_items)
         transaction_id = f"{request.user.id}-{timezone.now().strftime('%Y%m%d%H%M%S')}"
@@ -179,3 +188,17 @@ class DiscountCodeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Discount.objects.all()
     serializer_class = DiscountCodeSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
+
+class UpdateOrderStatusView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def patch(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        status = request.data.get('status')
+        if status not in dict(Order.STATUS_CHOICES):
+            return Response({'error': 'Invalid status'}, status=status.HTTP_400_BAD_REQUEST)
+        order.status = status
+        if status == 'SHIPPED':
+            order.tracking_number = request.data.get('tracking_number', '')
+        order.save()
+        return Response(OrderSerializer(order).data, status=status.HTTP_200_OK)
