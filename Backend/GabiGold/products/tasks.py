@@ -2,7 +2,7 @@ import requests
 from .models import GoldenPrice
 from datetime import datetime
 
-@shared_task
+
 def fetch_gold_price():
     url = 'https://sourcearena.ir/api/?token=ad87a7f78ba729d918ea3769838e53a2&currency&v2'
     headers = {

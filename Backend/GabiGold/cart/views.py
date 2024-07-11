@@ -9,6 +9,7 @@ from django.utils import timezone
 from zarinpal import ZarinPal  # Assuming Zarinpal library for payment integration is correctly configured
 from django.conf import settings
 from products.models import Product
+from products.utils import send_sms
 
 class CartView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -115,6 +116,10 @@ class ConfirmOrderView(APIView):
         if result['status'] == 100:
             order.payment_authority = result['authority']
             order.save()
+            send_sms(
+            request.user.phone_number,
+            f'Thank you for your order! Your order ID is {order.transaction_id}.'
+        )
             return Response({"url": zarinpal.get_payment_url(result['authority'])})
         else:
             order.delete()

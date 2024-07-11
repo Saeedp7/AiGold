@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from .models import Ticket, TicketMessage, Attachment
 from .serializers import TicketSerializer, TicketMessageSerializer, AttachmentSerializer
+from products.utils import send_sms
 
 class IsAdminOrOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -46,6 +47,10 @@ class TicketMessageCreateView(generics.CreateAPIView):
         else:
             ticket.status = 'open'
         ticket.save()
+        send_sms(
+            ticket.user.phone_number,
+            f'Your ticket "{ticket.title}" has been responded to. Please check your account for details.'
+        )
 
 class TicketStatusUpdateView(generics.UpdateAPIView):
     queryset = Ticket.objects.all()

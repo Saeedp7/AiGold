@@ -13,7 +13,7 @@ from django.conf import settings
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from Users.utils import send_otp
 User = get_user_model()
 
 class SendOTPView(APIView):
@@ -35,6 +35,7 @@ class SendOTPView(APIView):
 
             # Simulate sending OTP via SMS
             print(f"OTP: {otp}")
+            send_otp(phone_number, otp)
 
             return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
