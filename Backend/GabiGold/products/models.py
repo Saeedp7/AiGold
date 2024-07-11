@@ -2,6 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
+from django.dispatch import receiver
+from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
 import math
 
 def validate_file_size(value):
@@ -77,6 +80,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+@receiver(post_save, sender=Product)
+def send_product_update_sms(sender, instance, **kwargs):
+    from .utils import send_sms
+    send_sms(
+        '09120929331',  # Replace with actual phone number
+        f'Product updated: {instance.name} with new price: {instance.calculated_price}'
+    )
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)

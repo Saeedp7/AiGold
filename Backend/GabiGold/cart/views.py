@@ -93,7 +93,10 @@ class CheckoutView(generics.GenericAPIView):
             item.product.save()
 
         cart_items.delete()
-
+        send_sms(
+            request.user.phone_number,
+            f'Thank you for your order! Your order ID is {order.transaction_id}.'
+        )
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
 
 class ConfirmOrderView(APIView):
@@ -116,10 +119,7 @@ class ConfirmOrderView(APIView):
         if result['status'] == 100:
             order.payment_authority = result['authority']
             order.save()
-            send_sms(
-            request.user.phone_number,
-            f'Thank you for your order! Your order ID is {order.transaction_id}.'
-        )
+            
             return Response({"url": zarinpal.get_payment_url(result['authority'])})
         else:
             order.delete()
@@ -136,6 +136,10 @@ class PaymentVerifyView(generics.GenericAPIView):
         if result['status'] == 100:
             order.is_paid = True
             order.save()
+            send_sms(
+                order.user.phone_number,
+                f'Your payment for order ID {order.transaction_id} was successful. Thank you!'
+            )
             return Response(OrderSerializer(order).data)
         else:
             order.delete()
@@ -206,4 +210,8 @@ class UpdateOrderStatusView(APIView):
         if status == 'SHIPPED':
             order.tracking_number = request.data.get('tracking_number', '')
         order.save()
+        send_sms(
+            order.user.phone_number,
+            f'Your order ID {order.transaction_id} has been {order.status}.'
+        )
         return Response(OrderSerializer(order).data, status=status.HTTP_200_OK)

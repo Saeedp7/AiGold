@@ -3,6 +3,7 @@ from .tasks import fetch_gold_price
 from products.models import Product
 from products.utils import get_latest_gold_price
 from decimal import Decimal
+from .utils import send_sms
 import math
 
 class FetchGoldPriceCronJob(CronJobBase):
@@ -25,6 +26,7 @@ class FetchProductPriceCronJob(CronJobBase):
         if gold_price_per_gram is not None:
             products = Product.objects.all()
             for product in products:
+                old_price = product.price
                 product_price = product.weight * gold_price_per_gram
                 wage = (product.wages / 100) * product_price
                 income = (product_price + wage) * Decimal(0.07)
@@ -36,7 +38,11 @@ class FetchProductPriceCronJob(CronJobBase):
 
                 product.price = math.ceil(total_price)
                 product.save()
-
-            self.stdout.write(self.style.SUCCESS('Successfully updated product prices'))
+                if product.price != old_price:
+                    send_sms(
+                    '09120929331',  # Replace with actual phone number
+                    f'Product price updated: {product.name} with new price: {product.price}'
+                )
+            self.stdout.write(self.style.SUCCESS('Successfully updated products prices'))
         else:
             self.stdout.write(self.style.ERROR('Failed to retrieve gold price'))

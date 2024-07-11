@@ -64,4 +64,8 @@ class TicketStatusUpdateView(generics.UpdateAPIView):
             return Response({'error': 'Invalid status'}, status=status.HTTP_400_BAD_REQUEST)
         ticket.status = status
         ticket.save()
+        send_sms(
+            ticket.user.phone_number,
+            f'The status of your ticket "{ticket.title}" has been updated to {ticket.status}.'
+        )
         return Response({'status': 'Ticket status updated successfully'})

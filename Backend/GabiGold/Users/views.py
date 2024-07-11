@@ -14,6 +14,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from Users.utils import send_otp
+from products.utils import send_sms
+
 User = get_user_model()
 
 class SendOTPView(APIView):
@@ -69,7 +71,11 @@ class RegisterView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            user = serializer.save()
+            send_sms(
+                user.phone_number,
+                f'Welcome to GabiGold, {user.phone_number}!'
+            )
             return Response({"detail": "User registered successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -133,6 +139,10 @@ class ResetPasswordRequestView(APIView):
             user.set_password(new_password)
             user.save()
 
+            send_sms(
+                user.phone_number,
+                f'Your new password is {new_password}'
+            )
             # Simulate sending new password via SMS (replace with actual SMS sending code)
             print(f"New password for {phone_number}: {new_password}")
 
