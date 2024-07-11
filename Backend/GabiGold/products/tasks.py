@@ -16,8 +16,6 @@ def fetch_gold_price():
         data = response.json()
         for item_key, item_value in data.items():
             if item_key == '18ayar' or  item_key == 'nim' or item_key == 'gerami' or item_key == 'abshodeh' or item_key == 'rob' or item_key == 'bahar' or item_key == 'sekkeh' or item_key=='usd_xau' or item_key=='usd' or item_key=='eur':
-                print(item_key)
-                print(item_value)
                 GoldenPrice.objects.update_or_create(
                     slug=item_key,
                     defaults={

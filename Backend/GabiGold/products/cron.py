@@ -32,8 +32,7 @@ class FetchProductPriceCronJob(CronJobBase):
                 total_price = product_price + wage + income + tax
 
                 if product.has_stone:
-                    stone_price = product.stone_weight * product.stone_price
-                    total_price += stone_price
+                    total_price += product.stone_price
 
                 product.price = math.ceil(total_price)
                 product.save()

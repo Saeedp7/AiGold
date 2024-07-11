@@ -31,6 +31,7 @@ class Product(models.Model):
     product_standard = models.CharField(max_length=50)
     weight = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
     wages = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # New field for storing calculated price
     has_stone = models.BooleanField(default=False)
     stone_type = models.CharField(max_length=100, blank=True, null=True)
     stone_weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, validators=[MinValueValidator(Decimal('0.00'))])
@@ -40,9 +41,9 @@ class Product(models.Model):
     is_featured = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)
     thumbnail = models.ImageField(upload_to='products/thumbnails/', validators=[validate_file_size])
+    owner = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # New field for storing calculated price
 
     def save(self, *args, **kwargs):
         # Calculate the price
@@ -60,8 +61,7 @@ class Product(models.Model):
             total_price = product_price + wage + income + tax
 
             if self.has_stone:
-                stone_price = self.stone_weight * self.stone_price
-                total_price += stone_price
+                total_price += self.stone_price
 
             return math.ceil(total_price)
         else:
