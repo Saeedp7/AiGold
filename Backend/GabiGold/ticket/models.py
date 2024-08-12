@@ -23,7 +23,7 @@ class Ticket(models.Model):
         ('closed', 'Closed'),
     ]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tickets')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='users')
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
     title = models.CharField(max_length=255)

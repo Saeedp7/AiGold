@@ -6,7 +6,7 @@ class UpdatePricesCronJob(CronJobBase):
     RUN_EVERY_MINS = 60  # Run every hour
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'cart.update_prices_cron_job'
+    code = 'cart.cron.update_prices_cron_job'
 
     def do(self):
         for item in CartItem.objects.all():

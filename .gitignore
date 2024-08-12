@@ -32,6 +32,7 @@ db.sqlite3
 
 # Django migrations
 */migrations/*
+*/node_modules/*
 *.migration/
 
 # Static files

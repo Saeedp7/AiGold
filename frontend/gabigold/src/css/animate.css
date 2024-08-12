@@ -1,0 +1,71 @@
+/* Header.css */
+
+@keyframes logoPop {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes searchIconPulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  @keyframes toggleRotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(90deg);
+    }
+  }
+  
+  .header {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .logo-animation {
+    animation: logoPop 0.5s ease-out;
+  }
+  
+  .search-icon-animation {
+    animation: searchIconPulse 1.5s infinite ease-in-out;
+  }
+  
+  .toggle-animation {
+    animation: toggleRotate 0.5s ease;
+  }
+  
+  .navbar-collapse {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .fade-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms, transform 500ms;
+  }
+  .fade-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 500ms, transform 500ms;
+  }
+  

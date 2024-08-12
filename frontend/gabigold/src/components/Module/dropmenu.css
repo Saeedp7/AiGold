@@ -1,0 +1,89 @@
+.maindropdown {
+  width: 220px;
+  border: none;
+  background: transparent;
+  font-family: "Calibri", "Neirizi", sans-serif;
+  font-size: 1.2rem;
+  color: white;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+.maindropdown__text {
+  color: white;
+  cursor: pointer;
+}
+
+.maindropdown__link {
+  text-decoration: none;
+  color: white;
+}
+
+.maindropdown__link2 {
+  text-decoration: none;
+  color: black;
+}
+
+.maindropdown__text:hover {
+  color: white;
+  background: transparent;
+}
+
+.maindropdown__text:after {
+  content: "";
+  transition: all 0.3s;
+  border: solid #ccc;
+  border-width: 0 1px 1px 0;
+  float: right;
+  margin-top: 8px;
+  margin-right: 6px;
+  padding: 5px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.maindropdown.active .maindropdown__text:after {
+  margin-top: 1px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  opacity: 1;
+  visibility: visible;
+}
+
+.maindropdown__items {
+  position: relative;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, visibility 0s linear 0.5s, opacity 0.5s linear;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.maindropdown.active .maindropdown__items {
+  visibility: visible;
+  opacity: 1;
+  max-height: 500px; /* Adjust the max-height as needed */
+  transition: max-height 0.5s ease-in-out, opacity 0.5s linear;
+}
+
+.maindropdown__item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-dropdown {
+  width: 15vh;
+}
+
+.dropdown-item-custom {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20vh; /* Adjust the width as needed */
+}

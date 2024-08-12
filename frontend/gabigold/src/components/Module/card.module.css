@@ -1,0 +1,69 @@
+/* Existing Styles */
+.card {
+  background-image: url("../../assets/images/borderl.png");
+  background-position: 50%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255);
+  box-shadow: -26px 16px 15px 0px rgba(0, 0, 0, 0.25);
+  height: 75%;
+  z-index: 10010;
+  min-width: 75%;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.vscrolling_container {
+  overflow: hidden;
+}
+
+@media (max-width: 920px) {
+  .card {
+      background-image: url("../../assets/images/borderm.png");
+      width: 100% !important;
+      height: 100% !important;
+  }
+  .vscrolling_container { overflow: hidden; }
+}
+
+@media (max-width: 767px) {
+  .card {
+      background-image: url("../../assets/images/borders.png");
+      width: 100% !important;
+      height: 100% !important;
+  }
+  .vscrolling_container { overflow-x: hidden; overflow-y: scroll; }
+}
+
+/* Backdrop Styling */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Fade In & Out Animations for Card and Backdrop */
+.fadeIn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fadeOut {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.backdropFadeIn {
+  opacity: 1;
+}
+
+.backdropFadeOut {
+  opacity: 0;
+}

@@ -67,6 +67,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+    is_trusted = models.BooleanField(default=False)
     user_register_at = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = "phone_number"

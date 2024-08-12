@@ -1,0 +1,351 @@
+
+.slider .slick-slide img {
+    display: block;
+    max-width: 100%;
+    max-height: 20%;
+    overflow: hidden;
+  }
+  
+  .slider {
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    position: relative; /* Positions the slider in the layout */
+  }
+  
+  .slider .slide {
+    height: 70vh;
+    opacity: 0; /* Start with the image invisible */
+    transition-duration: 3s ease; /* Smooth transition for the fade effect */
+    position: absolute; /* Ensures slides are positioned over each other */
+  }
+  
+  .slider .active {
+    opacity: 1; /* Fully visible when active */
+    transition-duration: 3s;
+    position: relative; /* Ensures the active slide is positioned correctly */
+  }
+  
+  .form-control {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+  }
+  
+  .form-control:focus {
+    box-shadow: none;
+    border-color: #007bff; /* Bootstrap primary color */
+  }
+  
+  .each-slide {
+    display: flex;
+    width: 100%;
+    height: 70vh;
+  }
+  
+  .each-slide>div {
+    width: 75%;
+  }
+  
+  .each-slide>div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .each-slide p {
+    width: 25%;
+    font-size: 1em;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background: #adceed;
+  }
+  
+  .carousel-inner {
+    margin-top: 20px; /* Adjust this value as needed */
+  }
+  
+   .product-list-container {
+    margin-top: 20px; /* Adjust based on your header height */
+  }
+  
+  .product-col {
+    margin-bottom: 20px;
+  }
+  
+  .product-card {
+    background: white;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    will-change: transform, opacity; 
+  }
+  
+  .product-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensures the images cover the area well */
+  }
+  
+  .product-info {
+    padding: 10px;
+  }
+  
+  .product-name {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .product-brand {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  @media (max-width: 576px) { /* Adjustments for extra small devices */
+    .product-card {
+      padding: 5px; /* Reduces padding on smaller screens */
+      width: auto;
+    }
+    .product-image {
+      height: 150px; /* Adjust height to make images smaller on mobile */
+      width: auto;
+    }
+  }
+  
+  .paginationBttns {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 20px;
+  }
+  
+  .paginationBttns a {
+    padding: 10px;
+    margin: 8px;
+    border-radius: 5px;
+    border: 1px solid #d6d6d6;
+    color: #d6d6d6;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .paginationActive a {
+    color: white;
+    background-color: #d6d6d6;
+  }
+  
+  .paginationDisabled a {
+    color: grey;
+  }
+  
+  .previousBttn a, .nextBttn a {
+    font-weight: bold;
+  }
+  
+  .img-magnifier-container {
+    position: relative;
+  }
+  
+  .magnifier-img {
+    width: auto;
+    height: auto;
+  }
+  
+  .magnifier-image {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #fff;
+  }
+
+.padding-general {
+    padding: 0.75rem !important; /* Adjust this value as needed */
+}
+
+#gabigold {
+    min-height: 75vh;
+}
+
+.not-authorized-container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.not-authorized-container .card {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+}
+
+.not-authorized-container .card-body {
+    padding: 40px;
+}
+
+.not-authorized-container h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.not-authorized-container p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.not-authorized-container .btn-primary {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+
+/* Search.css */
+.range-container {
+  position: relative;
+  width: 100%;
+}
+
+.thumb {
+  pointer-events: none;
+  position: absolute;
+  height: 0;
+  width: 100%;
+  outline: none;
+}
+
+.thumb-left {
+  z-index: 3;
+}
+
+.thumb-right {
+  z-index: 4;
+}
+
+.slider {
+  position: relative;
+  height: 5px;
+  background-color: #ddd;
+}
+
+.track {
+  position: absolute;
+  height: 5px;
+  background-color: #007bff;
+}
+
+.price-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-left i {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+.header-right h4 {
+  margin-bottom: 0;
+}
+
+.header-right p {
+  margin: 0;
+}
+/* Ensure the Frame takes full height */
+.frame-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  max-width: 100%;
+  margin: auto;
+}
+
+.price-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 15px;
+}
+
+.header-section,
+.price-list,
+.footer-info,
+.contact-info {
+  padding: 5px;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.price-item:last-child {
+  border-bottom: none;
+}
+
+.price-icon {
+  width: 24px;
+  height: auto;
+  margin-left: 10px;
+}
+
+.price-value {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.price-dot {
+  width: 8px;
+  height: 8px;
+  background-color: black;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.footer-info {
+  font-weight: bold;
+  font-size: 0.8rem;
+  padding: 10px;
+}
+
+.contact-info {
+  font-size: 0.8rem;
+  color: #666666;
+  padding: 10px;
+}
+
+/* Ensure the footer sticks to the bottom */
+.footer-info,
+.contact-info {
+  margin-top: auto;
+}
+
+@media (max-width: 767px) {
+  .frame-container {
+    padding: 0;
+  }
+
+  .header-section,
+  .price-item,
+  .footer-info,
+  .contact-info {
+    padding: 5px;
+  }
+}
+

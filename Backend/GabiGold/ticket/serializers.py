@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Ticket, TicketMessage, Attachment
 from Cart.models import Order
 from Cart.serializers import OrderSerializer
+from Users.serializers import UserSerializer
 
 class AttachmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,21 +10,33 @@ class AttachmentSerializer(serializers.ModelSerializer):
         fields = ['id', 'file', 'uploaded_at']
 
 class TicketMessageSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    user = serializers.ReadOnlyField(source='user.is_staff')
     attachments = AttachmentSerializer(many=True, read_only=True)
+    attachment_files = serializers.ListField(
+        child=serializers.FileField(max_length=100000, allow_empty_file=False, use_url=False),
+        write_only=True,
+        required=False
+    )
 
     class Meta:
         model = TicketMessage
-        fields = ['id', 'user', 'message', 'created_at', 'attachments']
+        fields = ['id', 'user', 'message', 'created_at', 'attachments', 'attachment_files']
 
     def validate_message(self, value):
         if not value.strip():
             raise serializers.ValidationError("Message cannot be empty.")
         return value
+    
+    def create(self, validated_data):
+        attachment_files = validated_data.pop('attachment_files', [])
+        ticket_message = TicketMessage.objects.create(**validated_data)
+        for file in attachment_files:
+            Attachment.objects.create(ticket_message=ticket_message, file=file)
+        return ticket_message
 
 class TicketSerializer(serializers.ModelSerializer):
     messages = TicketMessageSerializer(many=True, read_only=True)
-    user = serializers.ReadOnlyField(source='user.username')
+    user = UserSerializer(read_only=True)
     order = OrderSerializer(read_only=True)
 
     class Meta:

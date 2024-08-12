@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-dh=w5r%rwgi&3@%taj6u@^sk^0(+8o6mw&y(@(=e$bk3m&zm16
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 MAX_OTP_TRY = 5
 
-ZARINPAL_MERCHANT_ID = 'your_merchant_id'
-BASE_URL = 'http://yourdomain.com'
+ZARINPAL_MERCHANT_ID = 'c8119dd0-7169-419d-9b5c-8cdd05b74a86'
+BASE_URL = 'http://localhost:8000'
+SANDBOX  =  True
+
 
 AUTH_USER_MODEL = "Users.UserModel"
 # Application definition
@@ -49,15 +51,19 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
     'django_filters',
     'django_cron',
+    'corsheaders',
     'Users',
     'Cart',
     'products',
     'wishlist',
     'ticket',
+    'channels',
+    'analytics'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,6 +80,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+
+
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -98,8 +108,12 @@ WSGI_APPLICATION = 'GabiGold.wsgi.application'
 CRON_CLASSES = [
     'products.cron.FetchGoldPriceCronJob',
     'products.cron.FetchProductPriceCronJob',
-    'cart.UpdatePricesCronJob',
+    'Cart.cron.UpdatePricesCronJob',
+    'Users.cron.CheckExpiredOTPs',
+
 ]
+
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -121,7 +135,7 @@ DATABASES = {
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -158,7 +172,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_HEADERS = [
+    'authorization',  # Add this line
+    'content-type',
+    'x-csrftoken',
+    'x-xsrf-token',
+    # Add any other headers you might need
+]
+
+# To allow specific domains
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+]
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -174,7 +204,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+ASGI_APPLICATION = 'GabiGold.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -7,7 +7,7 @@ from django.utils import timezone
 from .models import UserModel
 from .serializers import (
     SendOTPSerializer, VerifyOTPSerializer, RegisterSerializer, UserAdminSerializer,
-    LoginSerializer, LogoutSerializer, UpdateProfileSerializer, ResetPasswordRequestSerializer
+    LoginSerializer, LogoutSerializer, UpdateProfileSerializer, ResetPasswordRequestSerializer, ChangePasswordSerializer, PassChangeOTPSerializer
 )
 from django.conf import settings
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -15,6 +15,7 @@ from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from Users.utils import send_otp
 from products.utils import send_sms
+from Cart.models import Cart, CartItem
 
 User = get_user_model()
 
@@ -37,11 +38,35 @@ class SendOTPView(APIView):
 
             # Simulate sending OTP via SMS
             print(f"OTP: {otp}")
-            send_otp(phone_number, otp)
+            #send_otp(phone_number, otp)
 
             return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class PassChangeOTP(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = PassChangeOTPSerializer(data=request.data)
+        if serializer.is_valid():
+            phone_number = serializer.validated_data['phone_number']
+            if not phone_number:
+                return Response({"detail": "Phone number is required"}, status=status.HTTP_400_BAD_REQUEST)
+            otp = random.randint(100000, 999999)
+            otp_expiry = timezone.now() + timedelta(minutes=10)
+
+            user, created = UserModel.objects.get_or_create(phone_number=phone_number)
+            user.otp = otp
+            user.otp_expiry = otp_expiry
+            user.save()
+
+            # Simulate sending OTP via SMS
+            print(f"OTP: {otp}")
+            #send_otp(phone_number, otp)
+
+            return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class VerifyOTPView(APIView):
     permission_classes = [AllowAny]
 
@@ -93,6 +118,19 @@ class LoginView(APIView):
                 if user.is_active:
                     refresh = RefreshToken.for_user(user)
                     user_data = LoginSerializer(user, context={'request': request}).data
+
+                    # Reassign cart items from session to user
+                    session_key = request.session.session_key
+                    if not session_key:
+                        request.session.create()
+                        session_key = request.session.session_key
+                        
+                    cart = Cart.objects.filter(cart_id=session_key).first()
+                    if cart:
+                        cart.user = user
+                        cart.save()
+                        CartItem.objects.filter(cart=cart).update(user=user)
+
                     return Response({
                         'refresh': str(refresh),
                         'access': str(refresh.access_token),
@@ -103,6 +141,8 @@ class LoginView(APIView):
             else:
                 return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
     
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -121,6 +161,19 @@ class UpdateProfileView(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+    
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 class ResetPasswordRequestView(APIView):
     permission_classes = [AllowAny]
@@ -149,7 +202,24 @@ class ResetPasswordRequestView(APIView):
             return Response({"detail": "New password sent successfully"}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ChangePasswordView(generics.UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user.set_password(serializer.validated_data['new_password'])
+            user.save()
+            return Response({"detail": "Password changed successfully"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserAdminSerializer
@@ -159,3 +229,11 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserAdminSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)

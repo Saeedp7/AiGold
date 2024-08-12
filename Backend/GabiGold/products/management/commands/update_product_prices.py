@@ -2,7 +2,7 @@ import requests
 from django.core.management.base import BaseCommand
 from products.models import Product
 from products.utils import get_latest_gold_price
-حهح
+
 from decimal import Decimal
 import math
 
@@ -15,7 +15,7 @@ class Command(BaseCommand):
             products = Product.objects.all()
             for product in products:
                 product_price = product.weight * gold_price_per_gram
-                wage = (product.wages / 100) * product_price
+                wage = (product.wage / 100) * product_price
                 income = (product_price + wage) * Decimal(0.07)
                 tax = (income + wage) * Decimal(0.09)
                 total_price = product_price + wage + income + tax

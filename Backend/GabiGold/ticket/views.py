@@ -14,13 +14,28 @@ class TicketListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_staff:
-            return Ticket.objects.all()
         return Ticket.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        ticket = serializer.save(user=self.request.user)
+        
+        # Handle file attachments
+        files = self.request.FILES.getlist('attachments')
+        ticket_message = TicketMessage.objects.create(ticket=ticket, user=self.request.user, message=ticket.description)
+        for file in files:
+            Attachment.objects.create(ticket_message=ticket_message, file=file)
 
+class AdminTicketListView(generics.ListAPIView):
+    serializer_class = TicketSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+    def get_queryset(self):
+        queryset = Ticket.objects.all()
+        category = self.request.query_params.get('category', None)
+        if category:
+            queryset = queryset.filter(category=category)
+        return queryset
+    
 class TicketDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
@@ -31,26 +46,32 @@ class TicketMessageCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        ticket = Ticket.objects.get(pk=self.kwargs['ticket_id'])
-        if ticket.user != self.request.user and not self.request.user.is_staff:
-            raise PermissionDenied("You do not have permission to add messages to this ticket.")
-        ticket_message = serializer.save(user=self.request.user, ticket=ticket)
-        
-        # Handle file attachments
-        files = self.request.FILES.getlist('attachments')
-        for file in files:
-            Attachment.objects.create(ticket_message=ticket_message, file=file)
-        
-        # Automatically update ticket status
-        if self.request.user.is_staff:
-            ticket.status = 'pending'
-        else:
-            ticket.status = 'open'
-        ticket.save()
-        send_sms(
-            ticket.user.phone_number,
-            f'Your ticket "{ticket.title}" has been responded to. Please check your account for details.'
-        )
+            ticket = Ticket.objects.get(pk=self.kwargs['ticket_id'])
+            if ticket.user != self.request.user and not self.request.user.is_staff:
+                raise PermissionDenied("You do not have permission to add messages to this ticket.")
+            ticket_message = serializer.save(user=self.request.user, ticket=ticket)
+            
+            # Handle file attachments
+            files = self.request.FILES.getlist('attachments')
+            for file in files:
+                Attachment.objects.create(ticket_message=ticket_message, file=file)
+            
+            # Automatically update ticket status
+            if self.request.user.is_staff:
+                ticket.status = 'pending'
+            else:
+                ticket.status = 'open'
+            ticket.save()
+            send_sms(
+                ticket.user.phone_number,
+                f'Your ticket "{ticket.title}" has been responded to. Please check your account for details.'
+            )
+    def create(self, request, *args, **kwargs):
+        print("Request data: %s", request.data)
+        print("Request files: %s", request.FILES)
+        response = super().create(request, *args, **kwargs)
+        print("Response data: %s", response.data)
+        return response
 
 class TicketStatusUpdateView(generics.UpdateAPIView):
     queryset = Ticket.objects.all()

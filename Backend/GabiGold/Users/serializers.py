@@ -24,6 +24,15 @@ class UserSerializer(serializers.ModelSerializer):
 class SendOTPSerializer(serializers.Serializer):
     phone_number = serializers.CharField(required=True)
 
+    def validate_phone_number(self, value):
+        if UserModel.objects.filter(phone_number=value).exists():
+            raise serializers.ValidationError("Phone number already exists.")
+        return value
+
+class PassChangeOTPSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(required=True)
+
+
 class VerifyOTPSerializer(serializers.Serializer):
     phone_number = serializers.CharField()
     otp = serializers.CharField()
@@ -59,6 +68,9 @@ class RegisterSerializer(serializers.Serializer):
 
         if not self.is_code_melli_valid(phone_number, code_melli):
             raise serializers.ValidationError("Code Melli does not belong to the provided phone number")
+        
+        if UserModel.objects.filter(code_melli=code_melli).exists():
+            raise serializers.ValidationError("Code Melli is already in use")
 
         return data
 
@@ -96,6 +108,9 @@ class LoginSerializer(serializers.Serializer):
     gender = serializers.CharField(read_only=True)
     profile_picture = serializers.ImageField(read_only=True)
     user_register_at = serializers.DateTimeField(read_only=True)
+    is_admin = serializers.BooleanField(read_only=True)
+    is_staff = serializers.BooleanField(read_only=True)
+    is_trusted = serializers.BooleanField(read_only=True)
 
     def validate(self, data):
         phone_number = data.get('phone_number')
@@ -127,6 +142,9 @@ class LoginSerializer(serializers.Serializer):
         representation['gender'] = user.gender
         representation['profile_picture'] = user.profile_picture.url if user.profile_picture else None
         representation['user_register_at'] = user.user_register_at
+        representation['is_admin'] = user.is_admin
+        representation['is_staff'] = user.is_staff
+        representation['is_trusted'] = user.is_trusted
         return representation
     
 
@@ -148,7 +166,7 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = (
             'first_name', 'last_name', 'state', 'city', 
-            'address', 'postal_code', 'gender', 'profile_picture', 'code_melli'
+            'address', 'postal_code', 'gender', 'phone_number', 'code_melli', 'email'
         )
     
     def validate(self, data):
@@ -160,6 +178,26 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
 class ResetPasswordRequestSerializer(serializers.Serializer):
     phone_number = serializers.CharField(required=True)
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        old_password = data.get('old_password')
+        new_password = data.get('new_password')
+        confirm_password = data.get('confirm_password')
+
+        if new_password != confirm_password:
+            raise serializers.ValidationError("Passwords do not match")
+
+        user = self.context['request'].user
+        if not user.check_password(old_password):
+            raise serializers.ValidationError("Old password is incorrect")
+
+        return data
+
+
 class UserAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
@@ -168,6 +206,8 @@ class UserAdminSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # Implement update logic for admin features, e.g., activating/deactivating users
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
         instance.is_active = validated_data.get('is_active', instance.is_active)
         instance.is_staff = validated_data.get('is_staff', instance.is_staff)
         instance.is_admin = validated_data.get('is_admin', instance.is_admin)

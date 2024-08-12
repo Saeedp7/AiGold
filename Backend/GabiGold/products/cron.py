@@ -10,7 +10,7 @@ class FetchGoldPriceCronJob(CronJobBase):
     RUN_EVERY_MINS = 60  # every hour
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'products.fetch_gold_price_cron_job'  # a unique code
+    code = 'products.cron.fetch_gold_price_cron_job'  # a unique code
 
     def do(self):
         fetch_gold_price()
@@ -19,7 +19,7 @@ class FetchProductPriceCronJob(CronJobBase):
     RUN_EVERY_MINS = 60  # every hour
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'products.fetch_products_price_cron_job'  # a unique code
+    code = 'products.cron.fetch_products_price_cron_job'  # a unique code
 
     def do(self):
         gold_price_per_gram = get_latest_gold_price()
