@@ -37,7 +37,6 @@ const ProductList = () => {
     const [removedImages, setRemovedImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [productsPerPage] = useState(20);
-    const [removedThumbnail, setRemovedThumbnail] = useState(false);
     const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
 
     useEffect(() => {

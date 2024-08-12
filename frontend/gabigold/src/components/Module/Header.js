@@ -51,7 +51,7 @@ function Header(props) {
             </li>
             <li className="order-lg-2 ms-lg-3 ps-lg-1 pe-lg-0 nav-item">
               <span className="cart-item-info">
-                <a
+                <Link
                   role="button"
                   className="nav-link px-0 position-relative link"
                   href="#"
@@ -59,13 +59,13 @@ function Header(props) {
                   data-bs-target="#cartModal"
                 >
                   <Cart main />
-                </a>
+                </Link>
               </span>
             </li>
             <li className="nav-item order-lg-first ms-lg-3 ps-lg-1 j2store_cart_module_124">
                   <div className="j2store-minicart-button">
                     <span className="cart-item-info">
-                      <a
+                      <Link
                         className="nav-link px-0 position-relative link border-0 bg-transparent"
                         onClick={() => setShowSearch(true)} // Open search modal on click
                       >
@@ -85,7 +85,7 @@ function Header(props) {
                           <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                           <path d="M21 21l-6 -6"></path>
                         </svg>{" "}
-                      </a>
+                      </Link>
                     </span>
                   </div>
                 </li>

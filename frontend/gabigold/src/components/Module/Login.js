@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '../../store/actions/authActions';
-import { Form, Button, Container, Row, Col, InputGroup, Card, FormCheck } from 'react-bootstrap';
+import { Form, Button, Row, Col, InputGroup, Card, FormCheck } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobilePhone, faUnlockAlt, faX } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
@@ -55,7 +55,7 @@ const Login = () => {
             </div>
             <Row className="justify-content-center form-bg-image">
                 <div className='d-flex align-items-center justify-content-center'>
-                <img src={Logo} className='img-flui' style={{height:"70%"}}/>
+                <img src={Logo} className='img-fluid' style={{height:"70%"}} alt='Gabi Gold Gallery'/>
                 </div>
                 <Col className="d-flex align-items-center justify-content-center">
                     <div className="shadow-soft border rounded border-light p-3 p-lg-4 w-100">

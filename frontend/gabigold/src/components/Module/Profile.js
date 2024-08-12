@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faCog, faEnvelopeOpen, faSignOutAlt, faUserShield, faSignInAlt, faUserCircle, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faEnvelopeOpen, faSignOutAlt, faUserShield, faSignInAlt, faUserCircle, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { Nav, Dropdown } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';

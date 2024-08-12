@@ -54,7 +54,7 @@ const NewProductForm = ({ categories }) => {
         }
 
         try {
-            const response = await axiosInstance.post(`${BACKEND_URL}/shop/products/create/`, formData, {
+            await axiosInstance.post(`${BACKEND_URL}/shop/products/create/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,

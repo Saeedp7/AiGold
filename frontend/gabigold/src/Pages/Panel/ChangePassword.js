@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import axiosInstance from '../../components/utils/axiosinterceptor';
 import { BACKEND_URL } from '../../components/utils/api';
@@ -13,7 +13,7 @@ const ChangePassword = () => {
   const [otpSent, setOtpSent] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
-  const dispatch = useDispatch();
+
 
   const handleSendOtp = async () => {
     try {

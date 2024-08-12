@@ -13,7 +13,6 @@ const Checkout = () => {
   const [userData, setUserData] = useState({});
   const [userDataLoaded, setUserDataLoaded] = useState(false);
   const [discount, setDiscount] = useState({ amount: 0, percentage: 0 });
-  const cart_id = useSelector((state) => state.cart.cartId);
   const token =
     sessionStorage.getItem("access_token") ||
     localStorage.getItem("access_token");

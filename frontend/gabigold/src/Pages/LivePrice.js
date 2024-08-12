@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Frame from "../components/Module/Frame";
 import "../css/custom.css"; // Custom styling
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +11,7 @@ import {
   faCoins,
   faEuroSign,
   faDollarSign,
-  faTimes, // Added for close button
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 import icon1 from "../assets/images/tamam.png";
 import goldbar from "../assets/images/goldbar.png";
 import pattern from "../assets/images/pattern.png";
@@ -27,7 +25,6 @@ const LivePriceComponent = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const [currentDay, setCurrentDay] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPrices();

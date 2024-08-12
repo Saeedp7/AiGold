@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Frame from "../components/Module/Frame";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,10 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const Contact = (props) => {
   let navigate = useNavigate();
-
-  const ref = useRef(null);
-
-
   return (
     <Frame isVisible={true}>
           <div className="d-block">

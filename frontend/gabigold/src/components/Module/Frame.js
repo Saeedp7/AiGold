@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import classes from "./card.module.css";
 import ImageSlider from "./Slider";
 import { ToastContainer } from "react-toastify";
+import './card.css'; // Import your regular CSS file
 
 function Frame({ isVisible, onClose, noimage, children }) {
   const navigate = useNavigate();
@@ -25,12 +25,12 @@ function Frame({ isVisible, onClose, noimage, children }) {
   };
 
   return (
-    <div className={`container`}>
+    <div className="container">
       <div 
-        className={`${classes.backdrop} ${isAnimating ? classes.backdropFadeIn : classes.backdropFadeOut}`} 
+        className={`backdrop ${isAnimating ? 'backdropFadeIn' : 'backdropFadeOut'}`} 
         onClick={handleClose} 
       />
-      <div className={`position-absolute top-50 start-50 translate-middle ${classes.vscrolling_container} ${classes.card} ${isAnimating ? classes.fadeIn : classes.fadeOut}`}>
+      <div className={`position-absolute top-50 start-50 translate-middle vscrolling_container card ${isAnimating ? 'fadeIn' : 'fadeOut'}`}>
         <ToastContainer
           position="top-left"
           autoClose={3000}

@@ -11,9 +11,7 @@ import Search from "./Search"; // Import the Search component
 import GoldPriceCalculator from "../../Pages/Calculator";
 
 const Shop = (props) => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [showSearch, setShowSearch] = useState(false); // State to manage search modal visibility
-  const [showCalculator, setShowCalculator] = useState(false);
   const categories = useSelector((state) => state.categories.data);
   const [goldPrice, setGoldPrice] = useState();
   const dispatch = useDispatch();
@@ -28,19 +26,8 @@ const Shop = (props) => {
     if (!categories.length) {
       dispatch(fetchCategories());
     }
-
-    const mediaQuery = window.matchMedia("(max-width: 991px)");
-    const handleMediaQueryChange = (mediaQuery) => {
-      if (mediaQuery.matches) {
-        setIsSmallScreen(true);
-      } else {
-        setIsSmallScreen(false);
-      }
-    };
-    mediaQuery.addListener(handleMediaQueryChange);
-
-    return () => mediaQuery.removeListener(handleMediaQueryChange);
-  }, [dispatch]);
+    return 
+  }, [dispatch, categories.length]);
 
   return (
     <main>
@@ -89,7 +76,7 @@ const Shop = (props) => {
                 <li className="nav-item order-lg-last ms-lg-3 ps-lg-1 j2store_cart_module_124">
                   <div className="j2store-minicart-button">
                     <span className="cart-item-info">
-                      <a
+                      <Link
                         className="nav-link px-0 position-relative link border-0 bg-transparent"
                         onClick={() => setShowSearch(true)} // Open search modal on click
                       >
@@ -108,7 +95,7 @@ const Shop = (props) => {
                           <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                           <path d="M21 21l-6 -6"></path>
                         </svg>{" "}
-                      </a>
+                      </Link>
                     </span>
                   </div>
                 </li>
@@ -143,6 +130,7 @@ const Shop = (props) => {
               <a
                 href="https://www.saeedp7.com/"
                 target="_blank"
+                rel="noreferrer"
                 className="text-decoration-none d-inline-flex align-items-center text-reset sdj"
               >
                 website by Saeedp7 ↗

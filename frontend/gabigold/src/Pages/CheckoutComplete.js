@@ -71,7 +71,7 @@ const CheckoutComplete = () => {
         if (authority && status) {
             fetchOrder();
         }
-    }, [authority, status, token, navigate]);
+    }, [authority, status, token, navigate, dispatchAction]);
 
     if (loading) {
         return <p>در حال بارگذاری...</p>;

@@ -4,7 +4,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 
 
-export default (props) => {
+export default  function footer(props){
 
   return (
     <div>

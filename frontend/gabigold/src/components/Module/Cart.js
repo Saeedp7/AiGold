@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Nav,
-  Dropdown,
   ListGroup,
   Image,
   Modal,
@@ -15,7 +14,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL } from "../utils/api";
 import ApiService from "../utils/api";
-import "./Cart.css"; // Assuming you create a CSS file for custom styles
+import "./card.css"; // Assuming you create a CSS file for custom styles
 import { cartActions } from "../../store/reducers/cartReducer";
 
 const Cart = (props) => {

@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { Card, ListGroup, Form, Button } from "react-bootstrap";
 import { BACKEND_URL } from "../../components/utils/api";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const TicketDetails = () => {
@@ -14,7 +13,6 @@ const TicketDetails = () => {
     const [attachments, setAttachments] = useState([{ id: 1, file: null }]);
     const [status, setStatus] = useState("");
     const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
-    const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
 
     const categoryTranslations = {

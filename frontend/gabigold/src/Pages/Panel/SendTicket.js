@@ -76,7 +76,7 @@ const SendTicket = () => {
         };
 
         try {
-            const response = await axiosInstance.post(`${BACKEND_URL}/ticket/tickets/`, formData, config);
+            await axiosInstance.post(`${BACKEND_URL}/ticket/tickets/`, formData, config);
             toast.success('تیکت با موفقیت ارسال شد', {
                 position: "top-left",
                 autoClose: 3000,

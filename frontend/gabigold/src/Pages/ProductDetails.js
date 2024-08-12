@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import ImageMagnifier from '../components/Module/ImageMagnifier';
@@ -14,25 +14,12 @@ import ReviewsAndRatings from '../components/Module/Reviews';
 import ApiService from '../components/utils/api';
 import GoldPriceCalculator from './Calculator';
 
-const initialState = { count: 1 };
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'increment':
-      return { count: state.count + 1 };
-    case 'decrement':
-      return state.count > 1 ? { count: state.count - 1 } : state;
-    default:
-      return state;
-  }
-};
-
 const ProductDetail = () => {
   const { productid } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState('');
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState('info'); // Manage tabs here
-  const [state, dispatchReducer] = useReducer(reducer, initialState);
   const cartItems = useSelector(state => state.cart.cartItems) || [];
   const dispatch = useDispatch();
   const [showCalculator, setShowCalculator] = useState(false); // State to manage calculator modal

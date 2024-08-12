@@ -1,4 +1,4 @@
-import '../src/css/gabi.css'
+import './css/gabi.css'
 import './css/custom.css'
 import React from 'react';
 import { createRoot } from 'react-dom/client';

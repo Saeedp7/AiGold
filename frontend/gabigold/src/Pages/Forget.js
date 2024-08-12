@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp, faX, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Frame from "../components/Module/Frame";
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import { requestPasswordReset } from '../store/actions/authActions';
 
 const RecoverPassword = () => {
@@ -23,13 +22,9 @@ const RecoverPassword = () => {
     }
   }, [isLoggedIn, navigate]);
 
-  const resetForm = () => {
-    setPhoneNumber('');
-  };
-
   const handleRecoverPassword = async (e) => {
     e.preventDefault();
-    const { success, error } = await dispatch(requestPasswordReset(phoneNumber));
+    await dispatch(requestPasswordReset(phoneNumber));
   };
 
   const handleClick = () => {

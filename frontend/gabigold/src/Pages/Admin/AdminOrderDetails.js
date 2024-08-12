@@ -13,7 +13,7 @@ const AdminOrderDetails = () => {
 
   useEffect(() => {
     fetchOrderDetails();
-  }, [transaction_id]);
+  }, []);
 
   const fetchOrderDetails = async () => {
     const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');

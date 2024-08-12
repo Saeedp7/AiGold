@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
 import { sendOTP, verifyOTP, register } from '../store/actions/authActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMobilePhone, faUnlockAlt, faX } from '@fortawesome/free-solid-svg-icons';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import Frame from '../components/Module/Frame';
 import Logo from "../assets/images/blogo2.png"
@@ -86,7 +86,7 @@ const SignupForm = () => {
             </div>
             <Row className="justify-content-center form-bg-image">
                 <div className='d-flex align-items-center justify-content-center'>
-                <img src={Logo} className='img-flui' style={{height:"70%"}}/>
+                <img src={Logo} className='img-flui' style={{height:"70%"}} alt='Gabi Gold Gallery'/>
                 </div>
                 <Col xs={12} className="d-flex align-items-center justify-content-center">
                     <div className="shadow-soft border rounded border-light p-3 p-lg-4 w-100">

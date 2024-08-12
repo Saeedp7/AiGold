@@ -7,8 +7,9 @@ import Cart from "./Cart";
 import ProfileDropdown from "./Profile";
 import Search from "./Search";
 import GoldPriceCalculator from "../../Pages/Calculator";
+import { Link } from "react-router-dom";
 
-export default (props) => {
+export default function NavbarTop(props){
     const [goldPrice, setGoldPrice] = useState();
     const [showSearch, setShowSearch] = useState(false); // State to manage search modal visibility
 
@@ -42,7 +43,7 @@ export default (props) => {
             <Cart />
           </Nav>
           <Nav>
-                      <a
+                      <Link
                         className="nav-link px-0 position-relative link border-0 bg-transparent"
                         onClick={() => setShowSearch(true)} // Open search modal on click
                       >
@@ -61,7 +62,7 @@ export default (props) => {
                           <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                           <path d="M21 21l-6 -6"></path>
                         </svg>{" "}
-                      </a>
+                      </Link>
 </Nav>
 <Nav><GoldPriceCalculator /></Nav>
           <Nav className="navbar font-fa me-4" dir="rtl" style={{float:"left"}}>

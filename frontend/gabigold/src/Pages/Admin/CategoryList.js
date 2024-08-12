@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../components/utils/axiosinterceptor';
 import { BACKEND_URL } from '../../components/utils/api';
 import { toast } from 'react-toastify';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Form, Button, Card, ListGroup, Collapse, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { fetchCategories } from '../../store/actions/categoryActions';
 
@@ -14,7 +14,6 @@ const CategoryList = () => {
   const [loading, setLoading] = useState(false);
   const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
   const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
-  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
