@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, ListGroup } from 'react-bootstrap';
+import { Row, Col, ListGroup } from 'react-bootstrap';
 import axiosInstance from '../../components/utils/axiosinterceptor';
 import { useParams } from 'react-router-dom';
 import { BACKEND_URL } from '../../components/utils/api';
@@ -45,28 +45,26 @@ const OrderDetails = () => {
                     {loading ? (
                         <p>بارگذاری...</p>
                     ) : (
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>سفارش {order.transaction_id}</Card.Title>
-                                <Card.Text>
-                                    مبلغ کل: {order.total_price} تومان
-                                    <br />
-                                    وضعیت: {order.status}
-                                    <br />
-                                    آدرس: {order.address}
-                                    <br />
-                                    اطلاعات تماس: {order.contact_info}
-                                </Card.Text>
-                                <h4>موارد سفارش:</h4>
-                                <ListGroup>
-                                    {order.items.map(item => (
-                                        <ListGroup.Item key={item.id}>
-                                            <strong>{item.product.name}</strong> - {item.price} تومان
-                                        </ListGroup.Item>
-                                    ))}
-                                </ListGroup>
-                            </Card.Body>
-                        </Card>
+                        <div className="shadow-sm p-4 bg-white rounded border">
+                            <h3 className="mb-4 text-primary">سفارش {order.transaction_id}</h3>
+                            <p>
+                                <strong>مبلغ کل:</strong> {order.total_price} تومان
+                                <br />
+                                <strong>وضعیت:</strong> {order.status}
+                                <br />
+                                <strong>آدرس:</strong> {order.address}
+                                <br />
+                                <strong>اطلاعات تماس:</strong> {order.contact_info}
+                            </p>
+                            <h4 className="mt-4">موارد سفارش:</h4>
+                            <ListGroup className="mb-4">
+                                {order.items.map(item => (
+                                    <ListGroup.Item key={item.id} className="border-0 p-3 bg-light mb-2">
+                                        <strong>{item.product.name}</strong> - {item.price} تومان
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </div>
                     )}
                 </Col>
             </Row>

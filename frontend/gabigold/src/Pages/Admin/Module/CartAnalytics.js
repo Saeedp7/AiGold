@@ -1,6 +1,6 @@
 // src/pages/CartAnalytics.js
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Bar } from 'react-chartjs-2';
 
 const CartAnalytics = ({ data }) => {
@@ -19,21 +19,17 @@ const CartAnalytics = ({ data }) => {
 
   return (
     <Row className="mb-4">
-      <Col xs={8}>
-        <Card>
-          <Card.Body>
-            <Card.Title>نرخ تبدیل</Card.Title>
-            <Card.Text>{data.conversion_rate}%</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">نرخ تبدیل</h4>
+          <p className="lead">{data.conversion_rate}%</p>
+        </div>
       </Col>
-      <Col xs={8}>
-        <Card>
-          <Card.Body>
-            <Card.Title>بیشترین محصولات اضافه شده به سبد خرید</Card.Title>
-            <Bar data={mostAddedToCartProductsData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">بیشترین محصولات اضافه شده به سبد خرید</h4>
+          <Bar data={mostAddedToCartProductsData} />
+        </div>
       </Col>
     </Row>
   );

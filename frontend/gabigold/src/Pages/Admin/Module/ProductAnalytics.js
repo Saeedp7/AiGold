@@ -1,7 +1,7 @@
 // src/pages/ProductAnalytics.js
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement, ArcElement } from 'chart.js'; // Import ArcElement
+import { Row, Col } from 'react-bootstrap';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement, ArcElement } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -13,8 +13,8 @@ ChartJS.register(
     Legend,
     PointElement,
     LineElement,
-    ArcElement 
-  );
+    ArcElement
+);
 
 const ProductAnalytics = ({ data }) => {
   const mostReviewedProductsData = {
@@ -84,61 +84,47 @@ const ProductAnalytics = ({ data }) => {
 
   return (
     <Row className="mb-4">
-      <Col xs={6}>
-        <Card>
-          <Card.Body>
-            <Card.Title>کل محصولات</Card.Title>
-            <Card.Text>{data.total_products}</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">کل محصولات</h4>
+          <p className="lead">{data.total_products}</p>
+        </div>
       </Col>
-      <Col xs={6}>
-        <Card>
-          <Card.Body>
-            <Card.Title>محصولات موجود</Card.Title>
-            <Card.Text>{data.available_products}</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">محصولات موجود</h4>
+          <p className="lead">{data.available_products}</p>
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>بیشترین نقد و بررسی محصولات</Card.Title>
-            <Bar data={mostReviewedProductsData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">بیشترین نقد و بررسی محصولات</h4>
+          <Bar data={mostReviewedProductsData} />
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>محصولات با بالاترین امتیاز</Card.Title>
-            <Bar data={highestRatedProductsData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">محصولات با بالاترین امتیاز</h4>
+          <Bar data={highestRatedProductsData} />
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>محصولات با کمترین امتیاز</Card.Title>
-            <Bar data={lowestRatedProductsData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">محصولات با کمترین امتیاز</h4>
+          <Bar data={lowestRatedProductsData} />
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>عملکرد محصولات ویژه</Card.Title>
-            <Bar data={featuredProductsPerformanceData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">عملکرد محصولات ویژه</h4>
+          <Bar data={featuredProductsPerformanceData} />
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>روند قیمت طلا</Card.Title>
-            <Line data={goldPriceTrendsData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">روند قیمت طلا</h4>
+          <Line data={goldPriceTrendsData} />
+        </div>
       </Col>
     </Row>
   );

@@ -38,11 +38,11 @@ class FetchProductPriceCronJob(CronJobBase):
 
                 product.price = math.ceil(total_price)
                 product.save()
-                if product.price != old_price:
-                    send_sms(
-                    '09120929331',  # Replace with actual phone number
-                    f'Product price updated: {product.name} with new price: {product.price}'
-                )
-            self.stdout.write(self.style.SUCCESS('Successfully updated products prices'))
+                # if product.price != old_price:
+                #     send_sms(
+                #     '09120929331',  # Replace with actual phone number
+                #     f'Product price updated: {product.name} with new price: {product.price}'
+                # )
+            print('Successfully updated products prices')
         else:
-            self.stdout.write(self.style.ERROR('Failed to retrieve gold price'))
+           print('Failed to retrieve gold price')

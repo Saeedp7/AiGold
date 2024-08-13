@@ -34,7 +34,7 @@ function DropdownMenu(props) {
     <div className="container-fluid">
       <div className="nav-link d-inline-flex align-items-center">
         <nav className={`maindropdown ${activeMenu ? 'active' : ''}`} style={location ? { marginLeft: "-4vh" } : { marginLeft: "1vh" }}>
-          <button className="nav-link btn btn-link shadow-none" onClick={handleClick} style={{ pointerEvents: "all", ...textStyle }}>
+          <button className="nav-link btn btn-link shadow-none mt-5" onClick={handleClick} style={{ pointerEvents: "all", ...textStyle }}>
             PRODUCTS / ویترین
             <svg className="d-none d-lg-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 7 14 12 9 17"></polyline>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axiosInstance from '../../components/utils/axiosinterceptor';
 import { BACKEND_URL } from '../../components/utils/api';
 import { toast } from 'react-toastify';
@@ -13,7 +13,6 @@ const ChangePassword = () => {
   const [otpSent, setOtpSent] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
-
 
   const handleSendOtp = async () => {
     try {
@@ -61,65 +60,63 @@ const ChangePassword = () => {
     <Container className="my-5 d-flex justify-content-center">
       <Row className="w-100">
         <Col md={8} lg={6} className="mx-auto">
-          <Card className="shadow-sm">
-            <Card.Body>
-              <h3 className="text-center mb-4">تغییر رمز عبور</h3>
-              <Form onSubmit={handleChangePassword}>
-                <Form.Group controlId="oldPassword" className="mb-3">
-                  <Form.Label>رمز عبور قدیمی</Form.Label>
+          <div className="shadow-sm p-4 bg-white rounded border">
+            <h3 className="text-center mb-4 text-primary">تغییر رمز عبور</h3>
+            <Form onSubmit={handleChangePassword}>
+              <Form.Group controlId="oldPassword" className="mb-3">
+                <Form.Label>رمز عبور قدیمی</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  autoComplete="current-password"
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="newPassword" className="mb-3">
+                <Form.Label>رمز عبور جدید</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  autoComplete="new-password"
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="confirmPassword" className="mb-3">
+                <Form.Label>تأیید رمز عبور جدید</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
+                  required
+                />
+              </Form.Group>
+              {otpSent && (
+                <Form.Group controlId="otp" className="mb-3">
+                  <Form.Label>کد تایید</Form.Label>
                   <Form.Control
-                    type="password"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                    autoComplete="current-password"
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="newPassword" className="mb-3">
-                  <Form.Label>رمز عبور جدید</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    autoComplete="new-password"
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="confirmPassword" className="mb-3">
-                  <Form.Label>تأیید رمز عبور جدید</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    autoComplete="new-password"
-                    required
-                  />
-                </Form.Group>
-                {otpSent && (
-                  <Form.Group controlId="otp" className="mb-3">
-                    <Form.Label>کد تایید</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
+              )}
+              <div className="d-grid">
+                {!otpSent ? (
+                  <Button variant="primary" onClick={handleSendOtp}>
+                    ارسال کد تایید
+                  </Button>
+                ) : (
+                  <Button variant="success" type="submit">
+                    تغییر رمز عبور
+                  </Button>
                 )}
-                <div className="d-grid">
-                  {!otpSent ? (
-                    <Button variant="primary" onClick={handleSendOtp}>
-                      ارسال کد تایید
-                    </Button>
-                  ) : (
-                    <Button variant="success" type="submit">
-                      تغییر رمز عبور
-                    </Button>
-                  )}
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
+              </div>
+            </Form>
+          </div>
         </Col>
       </Row>
     </Container>

@@ -17,7 +17,7 @@ const ProfileDropdown = (props) => {
     };
 
     return (
-        <Dropdown as={Nav.Item} dir="rtl" align="end">
+        <Dropdown as={Nav.Item} dir="rtl" align="end" className="font-fa">
             <Dropdown.Toggle id="dropdown-autoclose-true" as={Nav.Link} className="p-0">
                 <span className="icon icon-sm">
                 <svg

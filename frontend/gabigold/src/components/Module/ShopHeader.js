@@ -20,13 +20,12 @@ const Shop = (props) => {
     setGoldPrice(data.gold_price);
   }, []);
 
-  useWebSocket("ws://localhost:8000/shop/gold-price/", handleNewPrice);
+  useWebSocket("wss://api.gabigold.ir/shop/gold-price/", handleNewPrice);
 
   useEffect(() => {
     if (!categories.length) {
       dispatch(fetchCategories());
     }
-    return 
   }, [dispatch, categories.length]);
 
   return (
@@ -73,12 +72,13 @@ const Shop = (props) => {
                 className="navbar-nav ms-lg-4 order-lg-2 flex-row lh-1"
                 style={{ paddingRight: "0" }}
               >
-                <li className="nav-item order-lg-last ms-lg-3 ps-lg-1 j2store_cart_module_124">
+                <li className="nav-item order-lg-last ms-lg-3 me-3 me-lg-0 me-2 ps-lg-1 pe-2 pe-lg-0 j2store_cart_module_124">
                   <div className="j2store-minicart-button">
                     <span className="cart-item-info">
-                      <Link
+                      <a
                         className="nav-link px-0 position-relative link border-0 bg-transparent"
                         onClick={() => setShowSearch(true)} // Open search modal on click
+                        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', zIndex:100000 }} // Ensures the button looks like a link
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -90,12 +90,13 @@ const Shop = (props) => {
                           fill="none"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          className="search-icon-animation"  // Added animation class for search icon
                         >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                           <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                           <path d="M21 21l-6 -6"></path>
                         </svg>{" "}
-                      </Link>
+                      </a>
                     </span>
                   </div>
                 </li>
@@ -106,7 +107,7 @@ const Shop = (props) => {
                   <Cart />
                 </li>
                 <li className="nav-item order-lg-last ms-lg-3 ps-lg-1 j2store_cart_module_124">
-                <GoldPriceCalculator />
+                  <GoldPriceCalculator />
                 </li>
               </ul>
             </nav>

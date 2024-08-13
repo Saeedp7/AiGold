@@ -1,6 +1,5 @@
 /* Existing Styles */
 .card {
-  background-image: url("../../assets/images/borderl.png");
   background-position: 50%;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -20,7 +19,6 @@
 
 @media (max-width: 920px) {
   .card {
-      background-image: url("../../assets/images/borderm.png");
       width: 100% !important;
       height: 100% !important;
   }
@@ -29,7 +27,6 @@
 
 @media (max-width: 767px) {
   .card {
-      background-image: url("../../assets/images/borders.png");
       width: 100% !important;
       height: 100% !important;
   }

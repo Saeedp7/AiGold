@@ -1,6 +1,6 @@
 // src/pages/OrderAnalytics.js
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Doughnut } from 'react-chartjs-2';
 
 // Utility function to convert seconds to months, days, hours, and minutes
@@ -29,29 +29,23 @@ const OrderAnalytics = ({ data }) => {
 
   return (
     <Row className="mb-4">
-      <Col xs={6}>
-        <Card>
-          <Card.Body>
-            <Card.Title>کل سفارشات</Card.Title>
-            <Card.Text>{data.total_orders}</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">کل سفارشات</h4>
+          <p className="lead">{data.total_orders}</p>
+        </div>
       </Col>
-      <Col xs={6}>
-        <Card>
-          <Card.Body>
-            <Card.Title>میانگین زمان پردازش سفارش</Card.Title>
-            <Card.Text>{formatProcessingTime(data.average_order_processing_time)}</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">میانگین زمان پردازش سفارش</h4>
+          <p className="lead">{formatProcessingTime(data.average_order_processing_time)}</p>
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>توزیع وضعیت سفارشات</Card.Title>
-            <Doughnut data={orderStatusDistributionData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">توزیع وضعیت سفارشات</h4>
+          <Doughnut data={orderStatusDistributionData} />
+        </div>
       </Col>
     </Row>
   );

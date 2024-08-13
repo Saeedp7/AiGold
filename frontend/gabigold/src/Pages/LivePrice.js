@@ -188,16 +188,16 @@ const LivePriceComponent = () => {
           <img src={pattern} className="img-fluid " alt="pattern" />
           </Col>
         </Row>
-        <Row className="footer-info text-center justify-content-center mt-0">
-          <Col xs={2}>
+        <Row className="footer-info text-center justify-content-center mt-0 d-flex flex-row">
+          <Col xs={4}>
             <FontAwesomeIcon icon={faCoins} /> اونس
             <br /> {getPriceItem("usd_xau")} $
           </Col>
-          <Col xs={2} className="border-end border-start rounded">
+          <Col xs={4} className="border-end border-start rounded">
             <FontAwesomeIcon icon={faEuroSign} />
             یورو <br /> {getPriceItem("eur")} تومان
           </Col>
-          <Col xs={2}>
+          <Col xs={4}>
             <FontAwesomeIcon icon={faDollarSign} /> دلار
             <br /> {getPriceItem("usd")} تومان
           </Col>
@@ -205,9 +205,6 @@ const LivePriceComponent = () => {
 
         {/* Contact Info */}
         <Row className="price-info text-center contact-info mt-4 mt-md-0 justify-content-center">
-        <Col className="text-center d-md-none">
-            <img src={Logo} className="img-fluid w-md-50" alt="Gabi Logo" />
-          </Col>
           <Col className="text-start lh-1" dir="ltr">
             <p className="fw-bold m-0">CONTACT US</p>
             <span>0917 368 4122 </span><br /><span> 0713 634 0201</span>
@@ -222,7 +219,7 @@ const LivePriceComponent = () => {
           </Col>
           <Col className="text-center">
           <Col xs={10} className="text-center">
-            <img src={Logo} className="img-fluid me-5 me-md-0" alt="Gabi Logo" />
+            <img src={Logo} className="img-fluid me-5 me-md-0" alt="Gabi Logo" style={{height:"6vh"}}/>
             </Col>
           </Col>
         </Row>

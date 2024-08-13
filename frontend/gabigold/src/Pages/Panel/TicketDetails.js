@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../components/utils/axiosinterceptor";
 import { useParams } from "react-router-dom";
-import { Card, ListGroup, Form, Button } from "react-bootstrap";
+import { ListGroup, Form, Button } from "react-bootstrap";
 import { BACKEND_URL } from "../../components/utils/api";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -151,9 +151,9 @@ const TicketDetails = () => {
 
     return (
         <div className="padding-general navDistance">
-            <h3 className="mb-4">جزئیات تیکت</h3>
-            <Card className="shadow-sm">
-                <Card.Header className="bg-primary text-white">
+            <h3 className="mb-4 text-primary">جزئیات تیکت</h3>
+            <div className="shadow-sm p-4 bg-white rounded">
+                <div className="bg-primary text-white p-3 rounded mb-4">
                     <h5>{ticket.title}</h5>
                     {ticket.order && ticket.order.transaction_id && (
                         <p className="mb-0">
@@ -172,6 +172,7 @@ const TicketDetails = () => {
                                 as="select"
                                 value={status}
                                 onChange={(e) => handleStatusChange(e.target.value)}
+                                className="shadow-sm"
                             >
                                 <option value="open">باز</option>
                                 <option value="pending">در انتظار</option>
@@ -179,62 +180,62 @@ const TicketDetails = () => {
                             </Form.Control>
                         </Form.Group>
                     )}
-                </Card.Header>
-                <Card.Body>
-                    <ListGroup variant="flush">
-                        {ticket.messages.map(message => (
-                            <ListGroup.Item 
-                                key={message.id} 
-                                className={`border-bottom d-flex ${message.user ? 'justify-content-start' : 'justify-content-end'}`}
-                            >
-                                <div className={`p-3 rounded ${message.user ? 'bg-light text-dark' : 'bg-primary text-white'}`}>
-                                    <div><span >{message.user ? "گابی" : "کاربر"}: </span>
-                                    <span>{message.message}</span></div>
-                                    {message.attachments && message.attachments.length > 0 && (
-                                        <div className="mt-2">
-                                            <strong>پیوست‌ها:</strong>
-                                            <ul className="list-unstyled">
-                                                {message.attachments.map(att => (
-                                                    <li key={att.id}>
-                                                        <a href={att.file} target="_blank" rel="noopener noreferrer" className={`${message.user ? 'text-black' : 'text-white'} text-decoration-none`}>دانلود فایل</a>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                    <div className={`bg-white card-footer text-muted m-1`}>{new Date(message.created_at).toLocaleString("fa-IR")}</div>
+                </div>
+                <ListGroup variant="flush">
+                    {ticket.messages.map(message => (
+                        <ListGroup.Item 
+                            key={message.id} 
+                            className={`border-bottom d-flex ${message.user ? 'justify-content-start' : 'justify-content-end'}`}
+                        >
+                            <div className={`p-3 rounded ${message.user ? 'bg-light text-dark' : 'bg-primary text-white'}`}>
+                                <div><span>{message.user ? "گابی" : "کاربر"}: </span>
+                                <span>{message.message}</span></div>
+                                {message.attachments && message.attachments.length > 0 && (
+                                    <div className="mt-2">
+                                        <strong>پیوست‌ها:</strong>
+                                        <ul className="list-unstyled">
+                                            {message.attachments.map(att => (
+                                                <li key={att.id}>
+                                                    <a href={att.file} target="_blank" rel="noopener noreferrer" className={`${message.user ? 'text-black' : 'text-white'} text-decoration-none`}>دانلود فایل</a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                <div className={`bg-white text-muted small mt-2 rounded px-2 py-1`}>
+                                    {new Date(message.created_at).toLocaleString("fa-IR")}
                                 </div>
-                            </ListGroup.Item>
-                        ))}
-                    </ListGroup>
-                    <Form className="mt-3">
-                        <Form.Group>
+                            </div>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+                <Form className="mt-3">
+                    <Form.Group>
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            placeholder="پیام خود را بنویسید..."
+                            value={message}
+                            onChange={e => setMessage(e.target.value)}
+                            className="rounded-2 w-100 shadow-sm"
+                        />
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                        <Form.Label>افزودن ضمیمه‌ها</Form.Label>
+                        {attachments.map(att => (
                             <Form.Control
-                                as="textarea"
-                                rows={3}
-                                placeholder="پیام خود را بنویسید..."
-                                value={message}
-                                onChange={e => setMessage(e.target.value)}
-                                className="rounded-2 w-75"
+                                key={att.id}
+                                type="file"
+                                onChange={(e) => handleAttachmentChange(e, att.id)}
+                                className="mb-2 shadow-sm"
                             />
-                        </Form.Group>
-                        <Form.Group className="mt-3">
-                            <Form.Label>افزودن ضمیمه‌ها</Form.Label>
-                            {attachments.map(att => (
-                                <Form.Control
-                                    key={att.id}
-                                    type="file"
-                                    onChange={(e) => handleAttachmentChange(e, att.id)}
-                                    className="mb-2 w-75"
-                                />
-                            ))}
-                        </Form.Group>
-                        <Button variant="primary" className="mt-2" onClick={handleSendMessage}>
-                            ارسال پیام
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
+                        ))}
+                    </Form.Group>
+                    <Button variant="primary" className="mt-2 shadow-sm" onClick={handleSendMessage}>
+                        ارسال پیام
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 };

@@ -43,19 +43,19 @@ function Frame({ isVisible, onClose, noimage, children }) {
           pauseOnHover
           theme="colored"
         />
-        <div className="row flex-md-nowrap">
+        <div className="row flex-md-nowrap justify-content-between">
           {!noimage ? (
             <>
-              <div className="col-lg-6 col-12 d-md-block pt-2 pb-2" style={{ minHeight: '70vh' }}>
-                <ImageSlider />
+              <div className="col-lg-6 col-12 d-md-block pt-2 pb-2" style={{ minHeight: '70vh', overflow: 'hidden' }}>
+                <ImageSlider className="img-fluid" style={{ maxWidth: '100%', height: 'auto' }} />
               </div>
-              <div className="col-lg-5 col-11 mt-md-3 d-block" dir="rtl">
+              <div className="col-lg-5 col-11 mt-md-3 d-block me-2" dir="rtl">
                 {children}
               </div>
             </>
           ) : (
             <div className="row justify-content-center ms-1 ms-md-0">
-              <div className="col-9 mt-md-3 d-block" dir="rtl">
+              <div className="col-12 mt-md-3 d-block" dir="rtl">
                 {children}
               </div>
             </div>

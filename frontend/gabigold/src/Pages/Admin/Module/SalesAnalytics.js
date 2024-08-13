@@ -1,7 +1,7 @@
 // src/pages/SalesAnalytics.js
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement, ArcElement } from 'chart.js'; // Import ArcElement
+import { Row, Col } from 'react-bootstrap';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement, ArcElement } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -13,8 +13,8 @@ ChartJS.register(
     Legend,
     PointElement,
     LineElement,
-    ArcElement 
-  );
+    ArcElement
+);
 
 const SalesAnalytics = ({ data }) => {
   const salesOverTimeData = {
@@ -45,37 +45,29 @@ const SalesAnalytics = ({ data }) => {
 
   return (
     <Row className="mb-4">
-      <Col xs={6}>
-        <Card>
-          <Card.Body>
-            <Card.Title>فروش کل</Card.Title>
-            <Card.Text>{Math.round(data.total_sales).toLocaleString("fa-IR")} تومان</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">فروش کل</h4>
+          <p className="lead">{Math.round(data.total_sales).toLocaleString("fa-IR")} تومان</p>
+        </div>
       </Col>
-      <Col xs={8}>
-        <Card>
-          <Card.Body>
-            <Card.Title>میانگین ارزش سفارش</Card.Title>
-            <Card.Text>{Math.round(data.average_order_value).toLocaleString("fa-IR")} تومان</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={8} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">میانگین ارزش سفارش</h4>
+          <p className="lead">{Math.round(data.average_order_value).toLocaleString("fa-IR")} تومان</p>
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>فروش در طول زمان</Card.Title>
-            <Line data={salesOverTimeData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">فروش در طول زمان</h4>
+          <Line data={salesOverTimeData} />
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>فروش بر اساس دسته‌بندی</Card.Title>
-            <Bar data={salesByCategoryData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">فروش بر اساس دسته‌بندی</h4>
+          <Bar data={salesByCategoryData} />
+        </div>
       </Col>
     </Row>
   );

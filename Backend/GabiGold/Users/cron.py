@@ -4,7 +4,7 @@ from django.utils import timezone
 from .models import UserModel
 
 class CheckExpiredOTPs(CronJobBase):
-    RUN_EVERY_MINS = 1440  # Run once a day
+    RUN_EVERY_MINS = 60  # Run once a day
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
     code = 'users.check_expired_otps'  # a unique code

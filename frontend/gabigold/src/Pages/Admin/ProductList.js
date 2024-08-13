@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../components/utils/axiosinterceptor';
-import { Pagination, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Pagination, Button, Container, Row, Col } from 'react-bootstrap';
 import { BACKEND_URL } from '../../components/utils/api';
 import { toast } from 'react-toastify';
 import ProductFilters from './Module/ProductFilters';
@@ -141,32 +141,30 @@ const ProductList = () => {
                     </Button>
                 </Col>
             </Row>
-            <Card className="shadow-sm">
-                <Card.Body className='font-fa fw-normal'>
-                    <ProductFilters
-                        filters={filters}
-                        categories={categories}
-                        handleFilterChange={handleFilterChange}
-                        handleFilterSubmit={handleFilterSubmit}
-                    />
-                    <ProductTable
-                        products={currentProducts}
-                        handleProductClick={handleProductClick}
-                        handleDeleteProduct={handleDeleteProduct}
-                    />
-                    <Pagination className="justify-content-center mt-4">
-                        {[...Array(Math.ceil(products.length / productsPerPage)).keys()].map((number) => (
-                            <Pagination.Item
-                                key={number + 1}
-                                onClick={() => paginate(number + 1)}
-                                active={currentPage === number + 1}
-                            >
-                                {number + 1}
-                            </Pagination.Item>
-                        ))}
-                    </Pagination>
-                </Card.Body>
-            </Card>
+            <div className="shadow-sm p-4 bg-white rounded border mb-4">
+                <ProductFilters
+                    filters={filters}
+                    categories={categories}
+                    handleFilterChange={handleFilterChange}
+                    handleFilterSubmit={handleFilterSubmit}
+                />
+                <ProductTable
+                    products={currentProducts}
+                    handleProductClick={handleProductClick}
+                    handleDeleteProduct={handleDeleteProduct}
+                />
+                <Pagination className="justify-content-center mt-4">
+                    {[...Array(Math.ceil(products.length / productsPerPage)).keys()].map((number) => (
+                        <Pagination.Item
+                            key={number + 1}
+                            onClick={() => paginate(number + 1)}
+                            active={currentPage === number + 1}
+                        >
+                            {number + 1}
+                        </Pagination.Item>
+                    ))}
+                </Pagination>
+            </div>
             {selectedProduct && (
                 <ProductModal
                     showModal={showModal}

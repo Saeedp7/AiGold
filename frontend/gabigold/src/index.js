@@ -1,5 +1,4 @@
 import './css/gabi.css'
-import './css/custom.css'
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom';
@@ -49,6 +48,7 @@ import UserList from './Pages/Admin/UserList';
 import LivePriceComponent from './Pages/LivePrice';
 import GoldPriceCalculatorPage from './Pages/GoldCalculator';
 import Analytics from './Pages/Admin/Analytics';
+import CronJobs from './Pages/Admin/Cronjobs';
 
 const router = createBrowserRouter([
   {
@@ -112,6 +112,7 @@ const router = createBrowserRouter([
       { path: 'allreviews', element: <AdminRoute><ReviewList /></AdminRoute> },
       { path: 'users', element: <AdminRoute><UserList /></AdminRoute> },
       { path: 'analytics', element: <AdminRoute><Analytics /></AdminRoute> },
+      { path: 'cronjobs', element: <AdminRoute><CronJobs /></AdminRoute> },
     ]
   },
   {

@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../components/utils/axiosinterceptor";
 import { BACKEND_URL } from "../components/utils/api";
 import { toast } from "react-toastify";
-import { Card, ListGroup, Row, Col } from "react-bootstrap";
+import { ListGroup, Row, Col } from "react-bootstrap";
 import ApiService from "../components/utils/api";
 import { useDispatch } from "react-redux";
 
@@ -41,12 +41,9 @@ const CheckoutComplete = () => {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                console.log(response)
-                console.log(response.status)
                 if (response.status === 200) {
                     setOrder(response.data);
                     setPaymentStatus('success');
-                    console.log("Set Shod")
                     await ApiService.clearCart(dispatchAction);
                 } else {
                     setPaymentStatus('failed');
@@ -87,24 +84,23 @@ const CheckoutComplete = () => {
 
     return (
         <div className="padding-general navDistance">
-            <Row>
-                <Col className='mb-5 col-12'>
-                    <h3 className='mb-3'>جزئیات سفارش شما</h3>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>سفارش {order.order_data.transaction_id}</Card.Title>
-                            <Card.Text>
-                                <strong>مبلغ کل:</strong> {order.order_data.total_price} تومان<br />
-                                <strong>وضعیت:</strong> {order.order_data.status}<br />
-                                <strong>آدرس:</strong> {order.order_data.address}<br />
-                                <strong>اطلاعات تماس:</strong> {order.order_data.contact_info}<br />
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <h4 className='mt-4'>محصولات</h4>
-                    <ListGroup>
+            <Row className="justify-content-center">
+                <Col md={8} className="mb-5">
+                    <h3 className="mb-3 text-center text-primary">جزئیات سفارش شما</h3>
+                    <div className="shadow-sm p-4 bg-white rounded border mb-4">
+                        <h4 className="text-center text-success">سفارش {order.order_data.transaction_id}</h4>
+                        <p className="text-center text-muted">پرداخت موفقیت‌آمیز بود!</p>
+                        <div className="order-details p-3 mt-4 bg-light rounded">
+                            <p><strong>مبلغ کل:</strong> {order.order_data.total_price} تومان</p>
+                            <p><strong>وضعیت:</strong> {order.order_data.status}</p>
+                            <p><strong>آدرس:</strong> {order.order_data.address}</p>
+                            <p><strong>اطلاعات تماس:</strong> {order.order_data.contact_info}</p>
+                        </div>
+                    </div>
+                    <h4 className="mt-4 text-center text-primary">محصولات شما</h4>
+                    <ListGroup className="shadow-sm rounded border">
                         {order.order_data.items.map(item => (
-                            <ListGroup.Item key={item.id}>
+                            <ListGroup.Item key={item.id} className="mb-2 p-3">
                                 <Row className="align-items-center">
                                     <Col className="col-auto">
                                         <img 
@@ -115,8 +111,8 @@ const CheckoutComplete = () => {
                                         />
                                     </Col>
                                     <Col>
-                                        <h5 className="mb-0">{item.product.name}</h5>
-                                        <p className="mb-0">قیمت: {item.price} تومان</p>
+                                        <h5 className="mb-0 text-primary">{item.product.name}</h5>
+                                        <p className="mb-0 text-muted">قیمت: {item.price} تومان</p>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>

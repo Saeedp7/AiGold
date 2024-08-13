@@ -45,11 +45,11 @@ function Header(props) {
               style={{ height: "auto" }}
             />
           </Link>
-          <ul className="navbar-nav me-3 me-lg-0 ms-lg-4 order-lg-2 flex-row lh-1">
+          <ul className="navbar-nav me-lg-0 ms-lg-4 order-lg-2 flex-row lh-1">
             <li className="nav-item order-lg-last ms-lg-3 me-3 me-lg-0 me-2 ps-lg-1 pe-2 pe-lg-0 j2store_cart_module_124">
               <ProfileDropdown main />
             </li>
-            <li className="order-lg-2 ms-lg-3 ps-lg-1 pe-lg-0 nav-item">
+            <li className="nav-item order-lg-2 ms-lg-3 me-3 me-lg-0 me-2 ps-lg-1 pe-2 pe-lg-0 j2store_cart_module_124">
               <span className="cart-item-info">
                 <Link
                   role="button"
@@ -62,7 +62,7 @@ function Header(props) {
                 </Link>
               </span>
             </li>
-            <li className="nav-item order-lg-first ms-lg-3 ps-lg-1 j2store_cart_module_124">
+            <li className="nav-item order-lg-last ms-lg-3 me-3 me-lg-0 me-2 ps-lg-1 pe-2 pe-lg-0 j2store_cart_module_124">
                   <div className="j2store-minicart-button">
                     <span className="cart-item-info">
                       <Link

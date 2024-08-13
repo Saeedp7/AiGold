@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../../components/utils/axiosinterceptor';
 import { BACKEND_URL } from '../../components/utils/api';
 import { toast } from 'react-toastify';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 const AdminOrderDetails = () => {
   const { transaction_id } = useParams();
@@ -57,7 +57,6 @@ const AdminOrderDetails = () => {
           },
         }
       );
-      console.log('پاسخ به‌روزرسانی وضعیت:', response.data);
       toast.success('وضعیت سفارش با موفقیت به‌روزرسانی شد');
     } catch (error) {
       console.error('خطا در به‌روزرسانی وضعیت سفارش:', error);
@@ -81,7 +80,6 @@ const AdminOrderDetails = () => {
       PROCESSING: 'در حال پردازش',
       SHIPPED: 'ارسال شده',
       COMPLETED: 'پرداخت شده'
-      // Add more status translations as needed
     };
     return statusTranslations[status] || status;
   };
@@ -91,9 +89,9 @@ const AdminOrderDetails = () => {
   }
 
   return (
-    <Container className="my-5 font-fa">
-      <h3 className="mb-4">جزئیات سفارش</h3>
-      <Card className="shadow-sm p-4 mb-4 w-100">
+    <Container className="my-5">
+      <h3 className="mb-4 text-primary">جزئیات سفارش</h3>
+      <div className="shadow-sm p-4 bg-white rounded border mb-4">
         <Row>
           <Col md={6}>
             <p><strong>شناسه تراکنش:</strong> {order.transaction_id}</p>
@@ -108,24 +106,28 @@ const AdminOrderDetails = () => {
             <p><strong>تاریخ ایجاد:</strong> {new Date(order.created_at).toLocaleString('fa-IR')}</p>
           </Col>
         </Row>
-      </Card>
-      <h4 className="mt-4">آیتم‌ها</h4>
+      </div>
+      <h4 className="mt-4 text-primary">آیتم‌ها</h4>
       {order.items && order.items.length > 0 ? (
         <Row>
           {order.items.map((item, index) => (
             <Col md={4} className="mb-4" key={index}>
-              <Card className="shadow-sm">
+              <div className="shadow-sm p-3 bg-white rounded border">
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
-                  <Card.Img variant="top" src={BACKEND_URL + item.product.thumbnail} alt={item.product.name} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                  <img 
+                    src={BACKEND_URL + item.product.thumbnail} 
+                    alt={item.product.name}
+                    style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }}
+                  />
                 </div>
-                <Card.Body>
-                  <Card.Title>{item.product.name}</Card.Title>
-                  <Card.Text><strong>کد محصول:</strong> {item.product.product_code}</Card.Text>
-                  <Card.Text><strong>وزن:</strong> {item.product.weight} گرم</Card.Text>
-                  <Card.Text><strong>اجرت:</strong> {Math.round(item.product.wage).toLocaleString('fa-IR')} %</Card.Text>
-                  <Card.Text><strong>قیمت:</strong> {Math.round(item.price).toLocaleString('fa-IR')} تومان</Card.Text>
-                </Card.Body>
-              </Card>
+                <div className="mt-3">
+                  <h5 className="text-primary">{item.product.name}</h5>
+                  <p className="mb-1"><strong>کد محصول:</strong> {item.product.product_code}</p>
+                  <p className="mb-1"><strong>وزن:</strong> {item.product.weight} گرم</p>
+                  <p className="mb-1"><strong>اجرت:</strong> {Math.round(item.product.wage).toLocaleString('fa-IR')} %</p>
+                  <p className="mb-0"><strong>قیمت:</strong> {Math.round(item.price).toLocaleString('fa-IR')} تومان</p>
+                </div>
+              </div>
             </Col>
           ))}
         </Row>

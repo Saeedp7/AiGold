@@ -38,10 +38,7 @@
     animation: logoPop 0.5s ease-out;
   }
   
-  .search-icon-animation {
-    animation: searchIconPulse 1.5s infinite ease-in-out;
-  }
-  
+
   .toggle-animation {
     animation: toggleRotate 0.5s ease;
   }

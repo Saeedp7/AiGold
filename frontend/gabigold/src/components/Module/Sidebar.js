@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faBagShopping, faCircleQuestion, faFileAlt, faChartPie, faDoorOpen, faTimes, faChevronLeft, faChevronDown, faBars, faKey, faAddressCard, faEnvelope, faEnvelopeOpen } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faUser, faBagShopping, faCircleQuestion, faFileAlt, faChartPie, faDoorOpen, faTimes, faChevronLeft, faChevronDown, faBars, faKey, faAddressCard, faEnvelope, faEnvelopeOpen, faTasks } from "@fortawesome/free-solid-svg-icons";
 import SimpleBar from 'simplebar-react';
 import './Sidebar.css';
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +33,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login');
-};
+  };
 
   const NavItem = ({ title, link, icon, badgeText, onClick }) => {
     const navItemClassName = link === pathname ? "active" : "";
@@ -57,7 +57,7 @@ const Sidebar = () => {
     const isOpen = expandedItem === eventKey;
 
     return (
-      <li className={`nav-item accordion-item ${isOpen ? "expanded" : ""}`}>
+      <li className={`nav-item accordion-item font-fa ${isOpen ? "expanded" : ""}`}>
         <button className="accordion-button nav-link d-flex justify-content-between align-items-center" onClick={() => handleExpand(eventKey)}>
           <span>
             <span className="sidebar-icon"><FontAwesomeIcon icon={icon} /></span>{" "}
@@ -76,11 +76,11 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="navbar navbar-expand navbar-dark bg-transparent px-4 d-md-none justify-content-between" dir="ltr">
+      <div className="navbar navbar-expand navbar-dark bg-transparent px-4 d-md-none justify-content-between font-fa" dir="ltr">
         <Link className="navbar-brand me-3 me-lg-5 pt-2" to="/">
           <img src={require("../../assets/images/blogo2.png")} className="navbar-brand-light" alt="GabiGoldGallery" style={{height:"5vh"}}/>
         </Link>
-        <button  className="border-0 bg-transparent" aria-controls="main-navbar" onClick={onCollapse}>
+        <button className="border-0 bg-transparent" aria-controls="main-navbar" onClick={onCollapse}>
           <span className="navbar-toggler-icon">
             <FontAwesomeIcon icon={faBars} />
           </span>
@@ -129,6 +129,8 @@ const Sidebar = () => {
                   <NavItem title="کاربران" icon={faAddressCard} link="/panel/users/" />
                   <NavItem link="/panel/analytics" title="آمار و ارقام" icon={faChartPie} />
 
+                  {/* Add Cron Jobs Trigger */}
+                  <NavItem title="Cron Jobs" link="/panel/cronjobs" icon={faTasks} />
                 </>
               )}
               <NavItem title="خروج" icon={faDoorOpen} onClick={handleLogout} />

@@ -3,7 +3,7 @@ import axiosInstance from '../../components/utils/axiosinterceptor';
 import { BACKEND_URL } from '../../components/utils/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Spinner, Card } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 
 const SendTicket = () => {
     const [inputs, setInputs] = useState({});
@@ -107,78 +107,92 @@ const SendTicket = () => {
         <Container className="my-5">
             <Row className="justify-content-center">
                 <Col md={8}>
-                    <Card className="shadow-sm">
-                        <Card.Body>
-                            <h3 className="mb-4 text-center">ارسال تیکت</h3>
-                            <Form onSubmit={handleSubmit}>
+                    <div className="shadow-sm p-4 bg-white rounded">
+                        <h3 className="mb-4 text-center text-primary">ارسال تیکت</h3>
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group className="mb-4">
+                                <Form.Label>دسته‌بندی</Form.Label>
+                                <Form.Select 
+                                    name="category" 
+                                    value={inputs.category || ""} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="shadow-sm p-2"
+                                >
+                                    <option value="">انتخاب دسته‌بندی</option>
+                                    <option value="order">سفارشات تکمیل نشده</option>
+                                    <option value="general">سوال عمومی</option>
+                                    <option value="technical">مشکلات فنی</option>
+                                </Form.Select>
+                            </Form.Group>
+
+                            {category === 'order' && (
                                 <Form.Group className="mb-4">
-                                    <Form.Label>دسته‌بندی</Form.Label>
-                                    <Form.Select name="category" value={inputs.category || ""} onChange={handleChange} required>
-                                        <option value="">انتخاب دسته‌بندی</option>
-                                        <option value="order">سفارشات تکمیل نشده</option>
-                                        <option value="general">سوال عمومی</option>
-                                        <option value="technical">مشکلات فنی</option>
+                                    <Form.Label>سفارشات</Form.Label>
+                                    <Form.Select 
+                                        name="order_id" 
+                                        value={inputs.order_id || ""} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className="shadow-sm p-2"
+                                    >
+                                        <option value="">انتخاب سفارش</option>
+                                        {orders.map(order => (
+                                            <option key={order.id} value={order.id}>
+                                                {order.transaction_id} - {new Date(order.created_at).toLocaleDateString('fa-IR')} - {Math.round(order.total_price).toLocaleString("fa-IR")}
+                                            </option>
+                                        ))}
                                     </Form.Select>
                                 </Form.Group>
+                            )}
 
-                                {category === 'order' && (
-                                    <Form.Group className="mb-4">
-                                        <Form.Label>سفارشات</Form.Label>
-                                        <Form.Select name="order_id" value={inputs.order_id || ""} onChange={handleChange} required>
-                                            <option value="">انتخاب سفارش</option>
-                                            {orders.map(order => (
-                                                <option key={order.id} value={order.id}>
-                                                    {order.transaction_id} - {new Date(order.created_at).toLocaleDateString('fa-IR')} - {Math.round(order.total_price).toLocaleString("fa-IR")}
-                                                </option>
-                                            ))}
-                                        </Form.Select>
-                                    </Form.Group>
-                                )}
+                            <Form.Group className="mb-4">
+                                <Form.Label>عنوان</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="title"
+                                    value={inputs.title || ""}
+                                    onChange={handleChange}
+                                    placeholder="عنوان تیکت خود را وارد کنید"
+                                    className="shadow-sm p-2"
+                                />
+                            </Form.Group>
 
-                                <Form.Group className="mb-4">
-                                    <Form.Label>عنوان</Form.Label>
+                            <Form.Group className="mb-4">
+                                <Form.Label>توضیحات</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    rows={4}
+                                    name="description"
+                                    value={inputs.description || ""}
+                                    onChange={handleChange}
+                                    placeholder="توضیحات کامل در مورد مشکلی که دارید وارد کنید"
+                                    className="shadow-sm p-2"
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formFileMultiple" className="mb-4">
+                                <Form.Label>افزودن ضمیمه</Form.Label>
+                                {attachments.map(att => (
                                     <Form.Control
-                                        type="text"
-                                        name="title"
-                                        value={inputs.title || ""}
-                                        onChange={handleChange}
-                                        placeholder="عنوان تیکت خود را وارد کنید"
-                                        style={{width:"95%"}}
+                                        key={att.id}
+                                        type="file"
+                                        onChange={(e) => handleAttachmentChange(e, att.id)}
+                                        className="shadow-sm p-2 mb-2"
                                     />
-                                </Form.Group>
+                                ))}
+                            </Form.Group>
 
-                                <Form.Group className="mb-4">
-                                    <Form.Label>توضیحات</Form.Label>
-                                    <Form.Control
-                                        as="textarea"
-                                        rows={4}
-                                        name="description"
-                                        value={inputs.description || ""}
-                                        onChange={handleChange}
-                                        placeholder="توضیحات کامل در مورد مشکلی که دارید وارد کنید"
-                                        style={{width:"95%"}}
-                                    />
-                                </Form.Group>
-
-                                <Form.Group controlId="formFileMultiple" className="mb-4">
-                                    <Form.Label>افزودن ضمیمه</Form.Label>
-                                    {attachments.map(att => (
-                                        <Form.Control
-                                            key={att.id}
-                                            type="file"
-                                            onChange={(e) => handleAttachmentChange(e, att.id)}
-                                            className="mb-2"
-                                            style={{width:"95%"}}
-                                        />
-                                    ))}
-                                </Form.Group>
-
-                                <Button type="submit" variant="primary" className="w-100" disabled={loading}>
-                                    {loading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'ارسال تیکت'}
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
+                            <Button 
+                                type="submit" 
+                                variant="primary" 
+                                className="w-100 shadow-sm" 
+                                disabled={loading}
+                            >
+                                {loading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'ارسال تیکت'}
+                            </Button>
+                        </Form>
+                    </div>
                 </Col>
             </Row>
         </Container>

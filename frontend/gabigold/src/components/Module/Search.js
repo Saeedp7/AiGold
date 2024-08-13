@@ -38,18 +38,19 @@ const Search = (props) => {
         show={props.show}
         onHide={props.onHide}
         dialogClassName="search-modal"
+        dir="rtl"
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Search Products</Modal.Title>
+        <Modal.Header closeButton className="border-0">
+          <Modal.Title className="text-center w-100">جستجوی محصولات</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group controlId="searchTerm">
-              <Form.Label>Search Term</Form.Label>
+              <Form.Label>عبارت جستجو</Form.Label>
               <Form.Control
-                className="w-75"
+                className="w-100"
                 type="text"
-                placeholder="Enter search term"
+                placeholder="عبارت مورد نظر را وارد کنید"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -58,17 +59,26 @@ const Search = (props) => {
             <Row className="mt-4">
               <Col>
                 <Form.Group controlId="weightRange">
-                  <Form.Label>Weight Range (g)</Form.Label>
-                  <Slider
-                    range
-                    min={0}
-                    max={100}
-                    value={weightRange}
-                    onChange={setWeightRange}
-                  />
-                  <div className="d-flex justify-content-between mt-2">
-                    <span>{weightRange[0]} g</span>
-                    <span>{weightRange[1]} g</span>
+                  <Form.Label>بازه وزن (گرم)</Form.Label>
+                  <div dir="rtl">
+                    <Slider
+                      range
+                      min={0}
+                      max={100}
+                      value={weightRange}
+                      onChange={setWeightRange}
+                      trackStyle={[{ backgroundColor: 'black' }]}
+                      railStyle={{ backgroundColor: 'black' }}
+                      handleStyle={[
+                        { borderColor: 'black', backgroundColor: 'black' },
+                        { borderColor: 'black', backgroundColor: 'black' }
+                      ]}
+                      reverse
+                    />
+                  </div>
+                  <div className="d-flex justify-content-between mt-2 text-muted">
+                    <span>{weightRange[0]} گرم</span>
+                    <span>{weightRange[1]} گرم</span>
                   </div>
                 </Form.Group>
               </Col>
@@ -77,15 +87,24 @@ const Search = (props) => {
             <Row className="mt-4">
               <Col>
                 <Form.Group controlId="wageRange">
-                  <Form.Label>Wage Range (%)</Form.Label>
-                  <Slider
-                    range
-                    min={0}
-                    max={100}
-                    value={wageRange}
-                    onChange={setWageRange}
-                  />
-                  <div className="d-flex justify-content-between mt-2">
+                  <Form.Label>بازه اجرت (%)</Form.Label>
+                  <div dir="rtl">
+                    <Slider
+                      range
+                      min={0}
+                      max={100}
+                      value={wageRange}
+                      onChange={setWageRange}
+                      trackStyle={[{ backgroundColor: 'black' }]}
+                      railStyle={{ backgroundColor: 'black' }}
+                      handleStyle={[
+                        { borderColor: 'black', backgroundColor: 'black' },
+                        { borderColor: 'black', backgroundColor: 'black' }
+                      ]}
+                      reverse
+                    />
+                  </div>
+                  <div className="d-flex justify-content-between mt-2 text-muted">
                     <span>{wageRange[0]}%</span>
                     <span>{wageRange[1]}%</span>
                   </div>
@@ -94,9 +113,9 @@ const Search = (props) => {
             </Row>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleSearch}>
-            Search
+        <Modal.Footer className="border-0 justify-content-center">
+          <Button variant="primary" onClick={handleSearch} className="w-50">
+            جستجو
           </Button>
         </Modal.Footer>
       </Modal>

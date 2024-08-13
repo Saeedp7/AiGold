@@ -17,7 +17,7 @@ export default function NavbarTop(props){
         setGoldPrice(data.gold_price);
       }, []);
     
-      useWebSocket("ws://localhost:8000/shop/gold-price/", handleNewPrice);
+      useWebSocket("wss://api.gabigold.ir/shop/gold-price/", handleNewPrice);
 
 
   return (

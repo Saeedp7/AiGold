@@ -1,6 +1,6 @@
 // src/pages/UserAnalytics.js
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Line, Doughnut } from 'react-chartjs-2';
 
 const UserAnalytics = ({ data }) => {
@@ -29,37 +29,29 @@ const UserAnalytics = ({ data }) => {
 
   return (
     <Row className="mb-4">
-      <Col xs={6}>
-        <Card>
-          <Card.Body>
-            <Card.Title>کل کاربران</Card.Title>
-            <Card.Text>{data.total_users}</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">کل کاربران</h4>
+          <p className="lead">{data.total_users}</p>
+        </div>
       </Col>
-      <Col xs={6}>
-        <Card>
-          <Card.Body>
-            <Card.Title>نرخ حفظ کاربر</Card.Title>
-            <Card.Text>{data.user_retention_rate}%</Card.Text>
-          </Card.Body>
-        </Card>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="shadow-sm p-4 bg-white rounded border text-center">
+          <h4 className="text-primary mb-3">نرخ حفظ کاربر</h4>
+          <p className="lead">{data.user_retention_rate}%</p>
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>کاربران جدید در طول زمان</Card.Title>
-            <Line data={newUsersOverTimeData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">کاربران جدید در طول زمان</h4>
+          <Line data={newUsersOverTimeData} />
+        </div>
       </Col>
-      <Col xs={10} className="mt-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>توزیع کاربران بر اساس جنسیت</Card.Title>
-            <Doughnut data={genderDistributionData} />
-          </Card.Body>
-        </Card>
+      <Col xs={12} className="mt-4">
+        <div className="shadow-sm p-4 bg-white rounded border">
+          <h4 className="text-primary mb-3">توزیع کاربران بر اساس جنسیت</h4>
+          <Doughnut data={genderDistributionData} />
+        </div>
       </Col>
     </Row>
   );

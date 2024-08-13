@@ -2,7 +2,7 @@ import axiosInstance from './axiosinterceptor';
 import { cartActions } from '../../store/reducers/cartReducer';
 axiosInstance.defaults.withCredentials = true;
 
-export const BACKEND_URL = 'http://localhost:8000'; // Adjust the URL based on your backend setup
+export const BACKEND_URL = 'https://api.gabigold.ir'; // Adjust the URL based on your backend setup
 
 export default class ApiService {
 
