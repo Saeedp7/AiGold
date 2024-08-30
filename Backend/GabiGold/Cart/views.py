@@ -239,8 +239,8 @@ class CheckoutView(generics.GenericAPIView):
                 return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
             send_sms(
-                user.phone_number,
-                f'Thank you for your order! Your order ID is {order.transaction_id}.'
+              user.phone_number,
+              f'از سفارش شما متشکریم! کد سفارش شما {order.transaction_id} است.'
             )
             return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
 
@@ -266,7 +266,7 @@ class PaymentVerifyView(generics.GenericAPIView):
 
             send_sms(
                 order.user.phone_number,
-                f'Your payment for order ID {order.transaction_id} was successful. Thank you!'
+                f'پرداخت شما برای سفارش با کد {order.transaction_id} با موفقیت انجام شد. متشکریم!'
             )
             # Convert decimal to float for JSON serialization
             order_data = OrderSerializer(order).data
@@ -350,8 +350,8 @@ class UpdateOrderStatusView(APIView):
         order.save()
         send_sms(
             order.user.phone_number,
-            f'Your order ID {order.transaction_id} has been {order.status}.'
-        )
+            f'سفارش شما با کد {order.transaction_id} {order.status} شد.'
+        )       
         return Response(OrderSerializer(order).data, status=status.HTTP_200_OK)
 
 class ConfirmOrderView(APIView):

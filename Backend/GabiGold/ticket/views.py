@@ -64,7 +64,7 @@ class TicketMessageCreateView(generics.CreateAPIView):
             ticket.save()
             send_sms(
                 ticket.user.phone_number,
-                f'Your ticket "{ticket.title}" has been responded to. Please check your account for details.'
+                f'به تیکت شما "{ticket.title}" پاسخ داده شده است. لطفاً برای جزئیات به حساب کاربری خود مراجعه کنید.'
             )
     def create(self, request, *args, **kwargs):
         print("Request data: %s", request.data)
@@ -87,6 +87,6 @@ class TicketStatusUpdateView(generics.UpdateAPIView):
         ticket.save()
         send_sms(
             ticket.user.phone_number,
-            f'The status of your ticket "{ticket.title}" has been updated to {ticket.status}.'
+            f'وضعیت تیکت شما "{ticket.title}" به {ticket.status} به‌روزرسانی شد.'
         )
         return Response({'status': 'Ticket status updated successfully'})
