@@ -1,4 +1,4 @@
-from kavenegar import KavenegarAPI, APIException, HTTPException
+from libs.melipayamak import Api
 from django.conf import settings
 from .models import GoldenPrice
 
@@ -11,15 +11,16 @@ def get_latest_gold_price():
     
 def send_sms(to, message):
     try:
-        api = KavenegarAPI(settings.KAVENEGAR_API_KEY)
-        params = {
-            'sender': '1000689696',  # Optional: You can set your sender number here
-            'receptor': to,
-            'message': message,
-        }
-        response = api.sms_send(params)
+        # Add "لغو 11" at the end of the message as required
+        message = f"{message} لغو 11"
+        
+        # Initialize the MelliPayamak API with your credentials
+        api = Api(settings.MELLIPAYAMAK_USERNAME, settings.MELLIPAYAMAK_PASSWORD)
+        sms = api.sms()
+        
+        # Send the SMS
+        response = sms.send(to, settings.MELLIPAYAMAK_SENDER_NUMBER, message)
         print(response)
-    except APIException as e:
-        print(f'APIException: {e}')
-    except HTTPException as e:
-        print(f'HTTPException: {e}')
+        
+    except Exception as e:
+        print(f'Error sending SMS: {e}')

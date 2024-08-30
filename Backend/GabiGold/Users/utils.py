@@ -1,14 +1,12 @@
 import requests
 from django.conf import settings
-API_KEY = (settings.KAVENEGAR_API_KEY)
+from libs.melipayamak import Api
+
 def send_otp(mobile, otp):
-    """
-    Send message.
-    """
-    url=f"https://api.kavenegar.com/v1/{API_KEY}/verify/lookup.json?receptor={mobile}&token={otp}&template=gabigold&type=sms"
-    # url = f"https://2factor.in/API/V1/{settings.SMS_API_KEY}/SMS/{mobile}/{otp}/Your OTP is"
-    # payload = ""
-    # headers = {'content-type': 'application/x-www-form-urlencoded'}
-    response = requests.get(url)
+    api = Api(MELLIPAYAMAK_USERNAME, MELLIPAYAMAK_PASSWORD)
+    sms = api.sms()
+    _from = '10007136340201'
+    text = f'کد اعتبارسنجی شما {otp} می باشد لغو 11'
+    response = sms.send(mobile, _from, text)
     print(response)
     return bool(response.ok)

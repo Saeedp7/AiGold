@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/static/css/main.cb601337.css",
+    "main.js": "/static/js/main.83908a0c.js",
+    "static/media/Slide2.jpg": "/static/media/Slide2.f3a50b7af85ca188e782.jpg",
+    "static/media/gabilogo.gif": "/static/media/gabilogo.08adfc66f199fe6a5dac.gif",
+    "static/media/Calibri.woff2": "/static/media/Calibri.6d82cfabc309b9253a36.woff2",
+    "static/media/Calibri-Bold.woff2": "/static/media/Calibri-Bold.1aa982ab4f16e7b71088.woff2",
+    "static/media/Calibri-Light.woff2": "/static/media/Calibri-Light.9467b48d01453dcfb608.woff2",
+    "static/media/Calibri-LightItalic.woff2": "/static/media/Calibri-LightItalic.4f89513749fae758d3af.woff2",
+    "static/media/Calibri-Italic.woff2": "/static/media/Calibri-Italic.c9580725f8d5ae18fb45.woff2",
+    "static/media/Calibri-BoldItalic.woff2": "/static/media/Calibri-BoldItalic.d8499555068c1df42ae4.woff2",
+    "static/media/Slide1.JPG": "/static/media/Slide1.e532dc6b55af8b4759c1.JPG",
+    "static/media/tamam.png": "/static/media/tamam.fc258da81849114e9c0b.png",
+    "static/media/image6.jpg": "/static/media/image6.233b2d7475c93059a817.jpg",
+    "static/media/image4.JPG": "/static/media/image4.fd9722de01c1b3f03b36.JPG",
+    "static/media/image2.jpg": "/static/media/image2.8c95059b278bf0962113.jpg",
+    "static/media/image3.jpg": "/static/media/image3.4277f56c5447c9e5cb99.jpg",
+    "static/media/goldbar.png": "/static/media/goldbar.90d09a0ac386c5f7442a.png",
+    "static/media/IRMaryam.woff": "/static/media/IRMaryam.03346967def5dd65f7dd.woff",
+    "static/media/1942-webfont.woff": "/static/media/1942-webfont.67c86dd4ed2f5963b4f1.woff",
+    "static/media/image1.jpg": "/static/media/image1.ceaf87550c1bf5176780.jpg",
+    "static/media/lg.svg?io9a6k": "/static/media/lg.09cd8e9be7081f216644.svg",
+    "static/media/wlogo2.png": "/static/media/wlogo2.d2dec55959e94a064e9f.png",
+    "static/media/lg.woff?io9a6k": "/static/media/lg.356a0e9cb064c7a196c6.woff",
+    "static/media/lg.ttf?io9a6k": "/static/media/lg.747d038541bfc6bb8ea9.ttf",
+    "index.html": "/index.html",
+    "static/media/lg.woff2?io9a6k": "/static/media/lg.64b800aa30714fd916dc.woff2",
+    "main.cb601337.css.map": "/static/css/main.cb601337.css.map",
+    "main.83908a0c.js.map": "/static/js/main.83908a0c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cb601337.css",
+    "static/js/main.83908a0c.js"
+  ]
+}

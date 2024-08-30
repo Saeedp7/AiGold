@@ -23,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dh=w5r%rwgi&3@%taj6u@^sk^0(+8o6mw&y(@(=e$bk3m&zm16'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '87.248.156.167', 'gabigold.ir', 'www.gabigold.ir', 'api.gabigold.ir']
+SECURE_SSL_REDIRECT = False
 
 MAX_OTP_TRY = 5
 
@@ -33,11 +34,16 @@ ZARINPAL_MERCHANT_ID = 'c8119dd0-7169-419d-9b5c-8cdd05b74a86'
 BASE_URL = 'http://localhost:8000'
 SANDBOX  =  True
 
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 AUTH_USER_MODEL = "Users.UserModel"
 # Application definition
 
-KAVENEGAR_API_KEY = '516F704B4A744D5A566252313975324E625934794D394D482F3132566C584630526A46516E396B6F73544D3D'
+MELLIPAYAMAK_USERNAME = '09120929331'
+MELLIPAYAMAK_PASSWORD = 'Bb@12804002'
+MELLIPAYAMAK_SENDER_NUMBER = '10007136340201'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -188,13 +194,16 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
+    'https://www.gabigold.ir',
+    'https://gabigold.ir',
+    'https://api.gabigold.ir',
 ]
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
@@ -203,10 +212,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
 
 ASGI_APPLICATION = 'GabiGold.asgi.application'
 

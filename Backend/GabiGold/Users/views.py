@@ -38,7 +38,7 @@ class SendOTPView(APIView):
 
             # Simulate sending OTP via SMS
             print(f"OTP: {otp}")
-            #send_otp(phone_number, otp)
+            send_otp(phone_number, otp)
 
             return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -62,7 +62,7 @@ class PassChangeOTP(APIView):
 
             # Simulate sending OTP via SMS
             print(f"OTP: {otp}")
-            #send_otp(phone_number, otp)
+            send_otp(phone_number, otp)
 
             return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -99,7 +99,7 @@ class RegisterView(APIView):
             user = serializer.save()
             send_sms(
                 user.phone_number,
-                f'Welcome to GabiGold, {user.phone_number}!'
+                f'به گالری گابی خوش آمدید, {user.phone_number}!'
             )
             return Response({"detail": "User registered successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -194,7 +194,7 @@ class ResetPasswordRequestView(APIView):
 
             send_sms(
                 user.phone_number,
-                f'Your new password is {new_password}'
+                f'رمز عبور جدید شما : {new_password}'
             )
             # Simulate sending new password via SMS (replace with actual SMS sending code)
             print(f"New password for {phone_number}: {new_password}")

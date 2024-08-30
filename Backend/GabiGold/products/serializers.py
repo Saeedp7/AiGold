@@ -119,8 +119,6 @@ class ProductCreateUpdateSerializer(serializers.ModelSerializer):
             instance.thumbnail = request.FILES['thumbnail']
         elif 'removed_thumbnail' in request.data:
             instance.thumbnail = None
-        elif 'thumbnail' in request.data and not request.data['thumbnail'].startswith('http'):
-            instance.thumbnail = request.data['thumbnail']
 
         images = request.FILES.getlist('images')
         if images:

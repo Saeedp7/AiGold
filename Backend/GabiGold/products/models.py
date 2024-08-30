@@ -82,14 +82,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
-@receiver(post_save, sender=Product)
-def send_product_update_sms(sender, instance, **kwargs):
-    from .utils import send_sms
-    send_sms(
-        '09120929331',  # Replace with actual phone number
-        f'Product updated: {instance.name} with new price: {instance.calculated_price}'
-    )
-
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='products', validators=[validate_file_size])
