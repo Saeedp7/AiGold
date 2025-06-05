@@ -6,14 +6,12 @@ import { logout } from '../../store/actions/authActions';
 
 // Create an Axios instance
 const axiosInstance = axios.create();
-    console.log("Salam")
 axiosInstance.interceptors.response.use(
   (response) => {
     return response; // If the response is successful, just return it
   },
   (error) => {
     const originalRequest = error.config;
-    console.log(error.response)
 
     // If the error response is 401, it means the token has expired
     if (error.response && error.response.status === 401 && !originalRequest._retry) {

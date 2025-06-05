@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Collapse } from "react-bootstrap";
 
-const AdressBar = () => {
+const AddressBar = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -87,4 +87,4 @@ const AdressBar = () => {
   );
 };
 
-export default AdressBar;
+export default AddressBar;

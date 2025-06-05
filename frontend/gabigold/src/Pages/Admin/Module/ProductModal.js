@@ -16,7 +16,6 @@ const ProductModal = ({
   images,
   loading,
 }) => {
-  console.log("✅ RENDERING ProductModal");
   return (
     <Modal show={showModal} onHide={handleModalClose} size="lg" dir="rtl">
       <Modal.Header closeButton className='flex-column-reverse'>
@@ -24,7 +23,6 @@ const ProductModal = ({
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={(e) => {
-            console.log("✅ Form submitted");
             handleEditSubmit(e);}}>
           <Row className="gy-3 gx-4 justify-content-around"> {/* Added spacing between columns */}
             {/* Right Column for Form Inputs */}

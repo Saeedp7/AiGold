@@ -1,5 +1,5 @@
 import { Outlet, useNavigation } from "react-router-dom";
-import AdressBar from "./AdressBar";
+import AddressBar from "./AddressBar";
 import Header from "./Header";
 import BackgroundSlider from "../../lib/BackgroundSlider";
 import image1 from "../../assets/images/image1.jpg";
@@ -36,7 +36,7 @@ function RootLayout() {
       <main className="flex-grow-1">
           <Outlet />
       </main>
-      <AdressBar />
+      <AddressBar />
     </>
   );
 }

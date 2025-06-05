@@ -70,7 +70,6 @@ export const login = (userData) => async dispatch => {
     } catch (error) {
         if (error.response.data.non_field_errors) {
             if (error.response.data.non_field_errors[0]=== "Invalid phone number or password") {
-                console.log(error.response.data.non_field_errors[0])
                 toast.error('شماره همراه یا رمز عبور وارد شده صحیح نمی باشد');
             }
         }

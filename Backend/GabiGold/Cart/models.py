@@ -12,11 +12,11 @@ class Cart(models.Model):
 
     @property
     def total_quantity(self):
-        return self.cartitems.all().count()
+        return self.cart_items.all().count()
     
     @property
     def total_price(self):
-        value =  sum(float(i.total_price) for i in self.cartitems.all())
+        value =  sum(float(i.total_price) for i in self.cart_items.all())
         value = "{:.2f}".format(value)
         return value
     

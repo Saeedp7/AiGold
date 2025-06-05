@@ -136,7 +136,6 @@ const Checkout = () => {
       payment_type: inputs.payment_type,
       discount_code: inputs.discount_code || "",
     };
-    console.log("Form data being sent:", formData);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -150,11 +149,9 @@ const Checkout = () => {
         formData,
         config
       );
-      console.log(res);
       if (inputs.payment_type === "card") {
         const paymentUrl = res.data["redirect_link"];
         localStorage.setItem("gabiorder", res.data["data"]);
-        console.log(paymentUrl);
         window.location.href = paymentUrl;
       } else {
         toast.success("سفارش شما با موفقیت ثبت شد", {

@@ -178,7 +178,6 @@ const ProductList = () => {
     };
 
     const handleEditSubmit = async (e) => {
-      console.log("✅ This is the correct handleEditSubmit running!");
       e.preventDefault();
       setLoading(true);
     
