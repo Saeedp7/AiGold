@@ -7,7 +7,7 @@ export default function Footer(props) {
       <Row className="align-items-center justify-content-between flex-wrap">
         <Col xs={12} lg={4} className="mb-3 mb-lg-0 text-center text-lg-left">
           <p className="mb-0">
-            Copyright © 2019-2024{" "}
+            Copyright © 2019-2025{" "}
             <Card.Link
               href="https://www.gabigoldgallery.com"
               target="_blank"

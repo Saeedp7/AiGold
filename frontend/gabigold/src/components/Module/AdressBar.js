@@ -69,7 +69,7 @@ const AdressBar = () => {
             </Collapse>
           </div>
           <div className="col-auto text-white">
-            © 2024 GABI
+            © 2025 GABI
           </div>
           <div className="col-auto text-white">
             <a

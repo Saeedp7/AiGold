@@ -1,26 +1,42 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import DropdownMenu from "./dropdown";
 import { ToastContainer } from "react-toastify";
 import Cart from "./Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "../../store/actions/categoryActions";
-import useWebSocket from "../utils/useWebSocket";
 import ProfileDropdown from "./Profile";
-import Search from "./Search"; // Import the Search component
+import Search from "./Search"; 
 import GoldPriceCalculator from "../../Pages/Calculator";
+import axiosInstance from "../utils/axiosinterceptor";
+import { BACKEND_URL } from "../utils/api";
 
 const Shop = (props) => {
   const [showSearch, setShowSearch] = useState(false); // State to manage search modal visibility
+  const [goldPrice, setGoldPrice] = useState(null);
   const categories = useSelector((state) => state.categories.data);
-  const [goldPrice, setGoldPrice] = useState();
   const dispatch = useDispatch();
 
-  const handleNewPrice = useCallback((data) => {
-    setGoldPrice(data.gold_price);
-  }, []);
+  const fetchGoldPrice = async () => {
+    try {
+      const response = await axiosInstance.get(`${BACKEND_URL}/shop/day-price`);
+      if (response.data.length > 0) {
+        setGoldPrice(response.data[7].price); // Assuming first item holds the latest price
+      }
+    } catch (error) {
+      console.error("Error fetching gold price:", error);
+    }
+  };
 
-  useWebSocket("wss://api.gabigold.ir/shop/gold-price/", handleNewPrice);
+  useEffect(() => {
+    fetchGoldPrice(); // Fetch initially
+
+    const interval = setInterval(() => {
+      fetchGoldPrice(); // Fetch every 5 seconds
+    }, 5000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
   useEffect(() => {
     if (!categories.length) {
@@ -63,9 +79,9 @@ const Shop = (props) => {
             </Link>
             <nav className="navbar navbar-dark font-fa" dir="rtl">
               قیمت هر گرم طلا :{" "}
-              {goldPrice
+              {goldPrice !== null
                 ? `${Math.round(goldPrice).toLocaleString("fa-IR")} تومان`
-                : "Loading..."}
+                : "در حال بارگذاری..."}
             </nav>
             <nav className="navbar navbar-dark" dir="rtl">
               <ul
@@ -77,8 +93,8 @@ const Shop = (props) => {
                     <span className="cart-item-info">
                       <a
                         className="nav-link px-0 position-relative link border-0 bg-transparent"
-                        onClick={() => setShowSearch(true)} // Open search modal on click
-                        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', zIndex:100000 }} // Ensures the button looks like a link
+                        onClick={() => setShowSearch(true)} 
+                        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', zIndex: 100000 }}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +106,7 @@ const Shop = (props) => {
                           fill="none"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="search-icon-animation"  // Added animation class for search icon
+                          className="search-icon-animation"
                         >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                           <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
@@ -120,13 +136,13 @@ const Shop = (props) => {
           </div>
         </nav>
       </header>
-      <Search show={showSearch} onHide={() => setShowSearch(false)} /> {/* Integrate Search modal */}
+      <Search show={showSearch} onHide={() => setShowSearch(false)} />
 
       <Outlet />
       <footer id="footer" className="pt-5 mt-3 mt-md-5 fs-10 sticky-bottom">
         <div className="container-fluid overflow-hidden">
           <div className="row gx-sm-5 justify-content-sm-between align-items-baseline">
-            <div className="col-auto">&copy; 2023 GabiGoldGallery</div>
+            <div className="col-auto">&copy; 2025 GabiGoldGallery</div>
             <div className="col-auto me-5 px-5">
               <a
                 href="https://www.saeedp7.com/"

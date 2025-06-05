@@ -181,7 +181,7 @@ const ProductDetail = () => {
             </div>{" "}
             <span className="text-nowrap d-inline-block">
               <span>Price : </span>
-              <span>{Math.round(product.price / 49900)}</span>
+              <span>{Math.round(product.price / 83000)}</span>
               <span> $</span>
             </span>
           </div>

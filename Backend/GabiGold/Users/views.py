@@ -13,7 +13,7 @@ from django.conf import settings
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
-from Users.utils import send_otp
+from .utils import send_otp
 from products.utils import send_sms
 from Cart.models import Cart, CartItem
 
