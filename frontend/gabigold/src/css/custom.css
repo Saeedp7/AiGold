@@ -349,3 +349,10 @@
   }
 }
 
+@media (max-width: 768px) {
+  .footer .position-absolute {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 1rem;
+  }
+}
