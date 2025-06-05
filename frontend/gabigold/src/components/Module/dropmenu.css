@@ -98,4 +98,8 @@
     width: 100%;
     left: 10;
   }
+  html[data-page="home"] .maindropdown__items {
+    background: transparent !important;
+    backdrop-filter:none;
+  }
 }

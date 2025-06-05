@@ -35,7 +35,7 @@ function Header(props) {
     setNavVisibility(!isNavVisible);
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const menu = menuRef.current;
     if (!menu) return;
     if (isNavVisible && location.pathname !== "/") {
@@ -124,17 +124,17 @@ function Header(props) {
           >
             <div className={`collapse navbar-collapse ${isNavVisible ? "show" : ""}`}>
               <ul className="navbar-nav me-lg-0 order-lg-2 lh-1 animate__animated animate__fadeInLeft">
-                <li className="nav-item">
+                <li className="nav-item py-1">
                   <NavLink to="/rules" className="nav-link">
                     Rules / قوانین
                   </NavLink>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item py-1">
                   <NavLink to="/about-us" className="nav-link">
                     About / درباره
                   </NavLink>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item py-1">
                   <NavLink to="/contact-us" className="nav-link">
                     Contact / تماس
                   </NavLink>

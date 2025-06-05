@@ -14340,6 +14340,11 @@ html:not([data-page=home]) #headerMenuDiv.play:before {
   display: block
 }
 
+/* Prevent blurred overlay when viewing the homepage */
+html[data-page=home] #headerMenuDiv:before {
+  display: none !important;
+}
+
 #header {
   pointer-events: none;
   --link-height: 28px
@@ -14625,7 +14630,7 @@ html:not([data-page=home]) #headerMenuDiv.play:before {
 }
 
 [data-page=home] #footer {
-  pointer-events: none;
+  pointer-events: auto;
   z-index: 0
 }
 

@@ -370,3 +370,7 @@
     z-index: 1020;
   }
 }
+
+[data-page="home"] #footer {
+  pointer-events: auto;
+}
