@@ -87,3 +87,15 @@
   text-overflow: ellipsis;
   max-width: 20vh; /* Adjust the width as needed */
 }
+
+@media (max-width: 991px) {
+  .maindropdown__items {
+    position: absolute;
+    z-index: 1030;
+  background-color: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+    width: 100%;
+    left: 10;
+  }
+}

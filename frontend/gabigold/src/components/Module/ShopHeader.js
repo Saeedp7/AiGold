@@ -77,7 +77,7 @@ const Shop = (props) => {
                 alt="GabiGoldGallery"
               />
             </Link>
-            <nav className="navbar navbar-dark font-fa" dir="rtl">
+            <nav className="navbar navbar-dark font-fa" dir="rtl" style={{fontSize:"1.2vh"}}>
               قیمت هر گرم طلا :{" "}
               {goldPrice !== null
                 ? `${Math.round(goldPrice).toLocaleString("fa-IR")} تومان`
@@ -88,7 +88,7 @@ const Shop = (props) => {
                 className="navbar-nav ms-lg-4 order-lg-2 flex-row lh-1"
                 style={{ paddingRight: "0" }}
               >
-                <li className="nav-item order-lg-last ms-lg-3 me-3 me-lg-0 me-2 ps-lg-1 pe-2 pe-lg-0 j2store_cart_module_124">
+                <li className="nav-item order-lg-last ms-lg-3 me-lg-0 ps-lg-1 pe-lg-0 j2store_cart_module_124">
                   <div className="j2store-minicart-button">
                     <span className="cart-item-info">
                       <a
@@ -143,7 +143,7 @@ const Shop = (props) => {
         <div className="container-fluid overflow-hidden">
           <div className="row gx-sm-5 justify-content-sm-between align-items-baseline">
             <div className="col-auto">&copy; 2025 GabiGoldGallery</div>
-            <div className="col-auto me-5 px-5">
+            <div className="col-auto me-5 px-0">
               <a
                 href="https://www.saeedp7.com/"
                 target="_blank"
