@@ -33,7 +33,7 @@ class Ticket(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.title} - {self.user.username}'
+        return f'{self.title} - {self.user.phone_number}'
 
 class TicketMessage(models.Model):
     ticket = models.ForeignKey(Ticket, related_name='messages', on_delete=models.CASCADE)
@@ -42,7 +42,7 @@ class TicketMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Message by {self.user.username} on {self.ticket.title}'
+        return f'Message by {self.user.phone_number} on {self.ticket.title}'
 
 class Attachment(models.Model):
     ticket_message = models.ForeignKey(TicketMessage, related_name='attachments', on_delete=models.CASCADE)
@@ -50,4 +50,4 @@ class Attachment(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Attachment for {self.ticket_message.ticket.title} by {self.ticket_message.user.username}'
+        return f'Attachment for {self.ticket_message.ticket.title} by {self.ticket_message.user.phone_number}'

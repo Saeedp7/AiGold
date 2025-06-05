@@ -71,7 +71,7 @@ class Order(models.Model):
     tracking_number = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f'Order {self.transaction_id} by {self.user.username}'
+        return f'Order {self.transaction_id} by {self.user.phone_number}'
 
 
 class OrderItem(models.Model):
