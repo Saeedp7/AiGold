@@ -1,4 +1,5 @@
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, useNavigation, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import AddressBar from "./AddressBar";
 import Header from "./Header";
 import BackgroundSlider from "../../lib/BackgroundSlider";
@@ -11,6 +12,18 @@ import { ToastContainer } from "react-toastify";
 
 function RootLayout() {
   const navigation = useNavigation();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      document.documentElement.setAttribute("data-page", "home");
+    } else {
+      document.documentElement.removeAttribute("data-page");
+    }
+    return () => {
+      document.documentElement.removeAttribute("data-page");
+    };
+  }, [location.pathname]);
 
   return (
     <>

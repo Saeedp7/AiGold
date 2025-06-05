@@ -42,7 +42,7 @@ const ProductCat = () => {
   };
 
   return (
-    <main className='overflow-hidden content-spacing px-2 pt-10 mt-4' >
+    <main className='overflow-hidden content-spacing px-2 pt-md-6 mt-4'>
       <Container fluid className='mt-'>
         <Row className="justify-content-center">
           <Col lg={9}>

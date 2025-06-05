@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReviewsAndRatings from '../components/Module/Reviews';
 import ApiService from '../components/utils/api';
-import GoldPriceCalculator from './Calculator';
+
 
 const ProductDetail = () => {
   const { productid } = useParams();
@@ -22,7 +22,6 @@ const ProductDetail = () => {
   const [selectedTab, setSelectedTab] = useState('info'); // Manage tabs here
   const cartItems = useSelector(state => state.cart.cartItems) || [];
   const dispatch = useDispatch();
-  const [showCalculator, setShowCalculator] = useState(false); // State to manage calculator modal
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -74,7 +73,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <main className='overflow-hidden content-spacing px-2 pt-10 mt-5' style={{paddingTop:"15vh"}} >
+    <main className='overflow-hidden content-spacing px-2 pt-md-6 mt-5' >
       <div className="row g-0 g-sm-4 g-md-5">
         <aside className="col-2 d-none d-lg-flex align-items-end">
           <div className="sticky-bottom"></div>
@@ -381,7 +380,6 @@ const ProductDetail = () => {
       </div>
 
       <div className="d-flex flex-grow-1 justify-content-center align-items-center"></div>
-      <GoldPriceCalculator show={showCalculator} handleClose={() => setShowCalculator(false)} /> {/* Include the calculator modal here */}
     </main>
   );
 };

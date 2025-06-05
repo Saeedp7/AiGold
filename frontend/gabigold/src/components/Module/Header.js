@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import DropdownMenu from "./dropdown";
 import { fetchCategories } from "../../store/actions/categoryActions";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,9 +9,11 @@ import Search from "./Search";
 import "../../css/animate.css"
 
 function Header(props) {
+  const location = useLocation();
   const [isNavVisible, setNavVisibility] = useState(false);
   const [showSearch, setShowSearch] = useState(false); // State to manage search modal visibility
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 992);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const menuRef = useRef(null);
   const categories = useSelector((state) => state.categories.data);
   const dispatch = useDispatch();
 
@@ -19,16 +21,29 @@ function Header(props) {
     if (!categories || categories.length === 0) {
       dispatch(fetchCategories());
     }
+  }, [dispatch, categories]);
+
+  useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 992);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [dispatch, categories]);
+  }, []);
 
   const toggleNav = () => {
     setNavVisibility(!isNavVisible);
   };
+
+    useEffect(() => {
+    const menu = menuRef.current;
+    if (!menu) return;
+    if (isNavVisible && location.pathname !== "/") {
+      menu.classList.add("play");
+    } else {
+      menu.classList.remove("play");
+    }
+  }, [isNavVisible, location.pathname]);
 
   return (
     <header id="header" className="flex-grow-1 animate__animated animate__fadeIn">
@@ -102,7 +117,11 @@ function Header(props) {
           >
             <span className="navbar-toggler-icon toggle-animation"></span>
           </button>
-          <div id={isSmallScreen ? (isNavVisible ? "headerMenuDiv" : "") : "headerEnd"} className="order-1">
+          <div
+            id={isSmallScreen ? (isNavVisible ? "headerMenuDiv" : "") : "headerEnd"}
+            ref={menuRef}
+            className="order-1"
+          >
             <div className={`collapse navbar-collapse ${isNavVisible ? "show" : ""}`}>
               <ul className="navbar-nav me-lg-0 order-lg-2 lh-1 animate__animated animate__fadeInLeft">
                 <li className="nav-item">
