@@ -5,6 +5,7 @@ from .utils import get_latest_gold_price
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser,FormParser
 
 class CategoryListView(APIView):
     def get(self, request):
@@ -61,16 +62,18 @@ class ProductUpdateView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductCreateUpdateSerializer
     permission_classes = [permissions.IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser]  # parse file uploads
 
     def update(self, request, *args, **kwargs):
         print(f"Incoming request data: {request.data}")
         print(f"Incoming request files: {request.FILES}")
-        partial = kwargs.pop('partial', False)
+        partial = True
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial,  context=self.get_serializer_context(),)
         serializer.is_valid(raise_exception=True)
         updated_instance = serializer.save()
-        return Response(self.get_serializer(updated_instance).data)
+        read = ProductSerializer(updated_instance, context=self.get_serializer_context())
+        return Response(read.data)
 
         
 class ProductByCategoryListView(generics.ListAPIView):

@@ -68,7 +68,7 @@ class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
     reviews = ReviewSerializer(many=True, read_only=True)
     ratings = RatingSerializer(many=True, read_only=True)
-    calculated_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+    calculated_price = serializers.DecimalField(max_digits=18, decimal_places=2, read_only=True)
     average_rating = serializers.SerializerMethodField()
     category_details = CategorySerializer(source='category', read_only=True)
 

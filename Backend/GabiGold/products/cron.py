@@ -28,7 +28,7 @@ class FetchProductPriceCronJob(CronJobBase):
             for product in products:
                 old_price = product.price
                 product_price = product.weight * gold_price_per_gram
-                wage = (product.wages / 100) * product_price
+                wage = (product.wage / 100) * product_price
                 income = (product_price + wage) * Decimal(0.07)
                 tax = (income + wage) * Decimal(0.09)
                 total_price = product_price + wage + income + tax

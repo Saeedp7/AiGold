@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv() 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dh=w5r%rwgi&3@%taj6u@^sk^0(+8o6mw&y(@(=e$bk3m&zm16'
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG","0") == "1"
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '87.248.156.167', 'gabigold.ir', 'www.gabigold.ir', 'api.gabigold.ir']
 SECURE_SSL_REDIRECT = False
@@ -124,16 +126,14 @@ CRON_CLASSES = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gabigold',
-        'USER': 'admin',
-        'PASSWORD': 'Bb@12804002',
-        'HOST':'localhost',
-        'PORT':'3306',
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',
-        }
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.environ["DB_NAME"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ["DB_HOST"],
+        "PORT": os.environ["DB_PORT"],
+        "OPTIONS": {"charset":"utf8mb4"},
     }
 }
 
@@ -198,6 +198,15 @@ CORS_ALLOWED_ORIGINS = [
     'https://gabigold.ir',
     'https://api.gabigold.ir',
 ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'https://www.gabigold.ir',
+    'https://gabigold.ir',
+    'https://api.gabigold.ir',
+]
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -212,10 +221,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.environ.get("STATIC_ROOT", BASE_DIR / "staticfiles")
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", BASE_DIR / "media")
 MEDIA_URL = '/media/'
 
 
