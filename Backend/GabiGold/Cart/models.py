@@ -1,8 +1,6 @@
 from django.db import models
 from django.conf import settings
 from products.models import Product
-from django.utils import timezone
-from zarinpal import ZarinPal
 from decimal import Decimal
 
 class Cart(models.Model):

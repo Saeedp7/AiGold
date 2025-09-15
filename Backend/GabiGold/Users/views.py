@@ -1,26 +1,41 @@
+import logging
 import random
 from datetime import timedelta
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, generics
+
+from django.contrib.auth import authenticate, get_user_model
 from django.utils import timezone
+from rest_framework import status, generics
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from Cart.models import Cart, CartItem
+from products.utils import send_sms
 from .models import UserModel
 from .serializers import (
-    SendOTPSerializer, VerifyOTPSerializer, RegisterSerializer, UserAdminSerializer,
-    LoginSerializer, LogoutSerializer, UpdateProfileSerializer, ResetPasswordRequestSerializer, ChangePasswordSerializer, PassChangeOTPSerializer
+    SendOTPSerializer,
+    VerifyOTPSerializer,
+    RegisterSerializer,
+    UserAdminSerializer,
+    LoginSerializer,
+    LogoutSerializer,
+    UpdateProfileSerializer,
+    ResetPasswordRequestSerializer,
+    ChangePasswordSerializer,
+    PassChangeOTPSerializer,
 )
-from django.conf import settings
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
-from django.contrib.auth import authenticate, get_user_model
-from rest_framework_simplejwt.tokens import RefreshToken
 from .utils import send_otp
-from products.utils import send_sms
-from Cart.models import Cart, CartItem
 
+
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 class SendOTPView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'otp'
 
     def post(self, request, *args, **kwargs):
         serializer = SendOTPSerializer(data=request.data)
@@ -37,7 +52,7 @@ class SendOTPView(APIView):
             user.save()
 
             # Simulate sending OTP via SMS
-            print(f"OTP: {otp}")
+            logger.debug("OTP: %s", otp)
             send_otp(phone_number, otp)
 
             return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
@@ -45,6 +60,8 @@ class SendOTPView(APIView):
 
 class PassChangeOTP(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'otp'
 
     def post(self, request, *args, **kwargs):
         serializer = PassChangeOTPSerializer(data=request.data)
@@ -61,7 +78,7 @@ class PassChangeOTP(APIView):
             user.save()
 
             # Simulate sending OTP via SMS
-            print(f"OTP: {otp}")
+            logger.debug("OTP: %s", otp)
             send_otp(phone_number, otp)
 
             return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
@@ -197,7 +214,7 @@ class ResetPasswordRequestView(APIView):
                 f'رمز عبور جدید شما : {new_password}'
             )
             # Simulate sending new password via SMS (replace with actual SMS sending code)
-            print(f"New password for {phone_number}: {new_password}")
+            logger.debug("New password for %s: %s", phone_number, new_password)
 
             return Response({"detail": "New password sent successfully"}, status=status.HTTP_200_OK)
         

@@ -5,4 +5,4 @@ class CartConfig(AppConfig):
     name = 'Cart'
 
     def ready(self):
-        import Cart.signals  # Ensure signals are loaded
+        __import__('Cart.signals')

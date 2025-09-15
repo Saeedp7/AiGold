@@ -1,4 +1,4 @@
-import requests
+
 from django.core.management.base import BaseCommand
 from products.models import Product
 from products.utils import get_latest_gold_price

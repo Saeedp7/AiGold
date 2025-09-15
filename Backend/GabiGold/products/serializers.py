@@ -1,8 +1,13 @@
-from rest_framework import serializers
-from django.db.models import Avg
-from .models import Category, Product, ProductImage, Review, Rating, GoldenPrice
-from django.contrib.auth import get_user_model
 import json
+import logging
+
+from django.contrib.auth import get_user_model
+from django.db.models import Avg
+from rest_framework import serializers
+
+from .models import Category, Product, ProductImage, Review, Rating, GoldenPrice
+
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -130,8 +135,8 @@ class ProductCreateUpdateSerializer(serializers.ModelSerializer):
             try:
                 removed_images = json.loads(removed_images)
                 instance.images.filter(id__in=removed_images).delete()
-            except json.JSONDecodeError as e:
-                print(f"Error decoding removed_images: {str(e)}")
+            except json.JSONDecodeError as e:  # pragma: no cover
+                logger.error("Error decoding removed_images: %s", e)
 
         instance.save()
         return instance

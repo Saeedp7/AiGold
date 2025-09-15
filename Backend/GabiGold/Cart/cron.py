@@ -1,5 +1,4 @@
 from django_cron import CronJobBase, Schedule
-from products.models import Product
 from .models import CartItem
 
 class UpdatePricesCronJob(CronJobBase):

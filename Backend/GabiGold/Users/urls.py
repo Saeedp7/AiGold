@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import SendOTPView, VerifyOTPView, RegisterView, LoginView, LogoutView, UpdateProfileView, ResetPasswordRequestView, UserListView, UserDetailView, ChangePasswordView, PassChangeOTP
-from django_rest_passwordreset.views import reset_password_request_token, reset_password_confirm
-
+from django_rest_passwordreset.views import reset_password_confirm
 urlpatterns = [
     path('reset_password/', ResetPasswordRequestView.as_view(), name='reset-password'),
     path('reset_password/confirm/', reset_password_confirm, name="reset-password-confirm"),

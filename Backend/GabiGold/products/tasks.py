@@ -1,6 +1,10 @@
+import logging
+from datetime import datetime
+
 import requests
 from .models import GoldenPrice
-from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_gold_price():
@@ -30,7 +34,7 @@ def fetch_gold_price():
                     }
                 )
 
-        print('Data updated successfully')
+        logger.info('Data updated successfully')
 
-    except requests.exceptions.RequestException as e:
-        print(f'Error fetching data: {e}')
+    except requests.exceptions.RequestException as e:  # pragma: no cover
+        logger.error('Error fetching data: %s', e)

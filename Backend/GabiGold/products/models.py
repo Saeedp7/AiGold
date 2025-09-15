@@ -2,9 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
-from django.dispatch import receiver
+
 from django.core.exceptions import ValidationError
-from django.db.models.signals import post_save
+
 import math
 
 def validate_file_size(value):

@@ -1,9 +1,16 @@
+import logging
+
 from rest_framework import generics, permissions, status
-from rest_framework.response import Response
+
 from rest_framework.exceptions import PermissionDenied
-from .models import Ticket, TicketMessage, Attachment
-from .serializers import TicketSerializer, TicketMessageSerializer, AttachmentSerializer
+from rest_framework.response import Response
+
 from products.utils import send_sms
+from .models import Attachment, Ticket, TicketMessage
+from .serializers import TicketSerializer, TicketMessageSerializer
+
+
+logger = logging.getLogger(__name__)
 
 class IsAdminOrOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -67,10 +74,10 @@ class TicketMessageCreateView(generics.CreateAPIView):
                 f'به تیکت شما "{ticket.title}" پاسخ داده شده است. لطفاً برای جزئیات به حساب کاربری خود مراجعه کنید.'
             )
     def create(self, request, *args, **kwargs):
-        print("Request data: %s", request.data)
-        print("Request files: %s", request.FILES)
+        logger.debug("Request data: %s", request.data)
+        logger.debug("Request files: %s", request.FILES)
         response = super().create(request, *args, **kwargs)
-        print("Response data: %s", response.data)
+        logger.debug("Response data: %s", response.data)
         return response
 
 class TicketStatusUpdateView(generics.UpdateAPIView):
@@ -80,10 +87,10 @@ class TicketStatusUpdateView(generics.UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         ticket = self.get_object()
-        status = request.data.get('status')
-        if status not in ['pending', 'closed']:
+        new_status = request.data.get('status')
+        if new_status not in ['pending', 'closed']:
             return Response({'error': 'Invalid status'}, status=status.HTTP_400_BAD_REQUEST)
-        ticket.status = status
+        ticket.status = new_status
         ticket.save()
         send_sms(
             ticket.user.phone_number,

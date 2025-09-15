@@ -1,17 +1,23 @@
-from decimal import Decimal
-from rest_framework import status, generics
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from django.conf import settings
-from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
-from .models import CartItem, Order, OrderItem, Discount, Cart
-from .serializers import CartItemSerializer, OrderSerializer, DiscountCodeSerializer
-from django.utils import timezone
-import requests
 import json
+import logging
+import requests
+from decimal import Decimal
+
+from django.conf import settings
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from products.models import Product
 from products.utils import send_sms
+from rest_framework import generics, status
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import CartItem, Order, OrderItem, Discount, Cart
+from .serializers import CartItemSerializer, OrderSerializer, DiscountCodeSerializer
+
+
+logger = logging.getLogger(__name__)
 
 # Sandbox or Production mode
 if settings.SANDBOX:
@@ -26,7 +32,7 @@ ZP_API_STARTPAY = f"https://{sandbox}.zarinpal.com/pg/StartPay/"
 CallbackURL = 'http://localhost:3000/checkout/success'
 
 def send_zarinpal_request(amount, description, phone, callback_url):
-    print("Sending Zarinpal request...")
+    logger.info("Sending Zarinpal request...")
     data = {
         "MerchantID": settings.ZARINPAL_MERCHANT_ID,
         "Amount": amount,
@@ -38,12 +44,12 @@ def send_zarinpal_request(amount, description, phone, callback_url):
     headers = {'content-type': 'application/json', 'content-length': str(len(data))}
     try:
         response = requests.post(ZP_API_REQUEST, data=data, headers=headers, timeout=10)
-        print(f"Zarinpal request response status code: {response.status_code}")
-        print(f"Zarinpal request response text: {response.text}")
+        logger.debug("Zarinpal request response status code: %s", response.status_code)
+        logger.debug("Zarinpal request response text: %s", response.text)
         if response.status_code == 200:
             response = response.json()
             if response['Status'] == 100:
-                print(f"Zarinpal request successful, authority: {response['Authority']}")
+                logger.info("Zarinpal request successful, authority: %s", response['Authority'])
                 return {'status': True, 'url': ZP_API_STARTPAY + str(response['Authority']), 'authority': response['Authority']}
             else:
                 raise Exception(f"APIException[{response['Status']}] {response.get('Message', 'Unknown error')}")
@@ -54,7 +60,7 @@ def send_zarinpal_request(amount, description, phone, callback_url):
         raise Exception('APIException[connection error] Connection error')
 
 def verify_zarinpal_payment(amount, authority):
-    print("Verifying Zarinpal payment...")
+    logger.info("Verifying Zarinpal payment...")
     data = {
         "MerchantID": settings.ZARINPAL_MERCHANT_ID,
         "Amount": float(amount),
@@ -63,19 +69,19 @@ def verify_zarinpal_payment(amount, authority):
     data = json.dumps(data)
     headers = {'content-type': 'application/json', 'content-length': str(len(data))}
     response = requests.post(ZP_API_VERIFY, data=data, headers=headers)
-    print(f"Zarinpal verify response status code: {response.status_code}")
-    print(f"Zarinpal verify response text: {response.text}")
+    logger.debug("Zarinpal verify response status code: %s", response.status_code)
+    logger.debug("Zarinpal verify response text: %s", response.text)
     if response.status_code == 200:
         response = response.json()
         if response['Status'] == 100:
-            print(f"Zarinpal verify successful, RefID: {response['RefID']}")
+            logger.info("Zarinpal verify successful, RefID: %s", response['RefID'])
             return {'status': True, 'RefID': response['RefID']}
         else:
             return {'status': False, 'code': str(response['Status'])}
     return {'status': False, 'code': 'error'}
 
 class CartView(generics.GenericAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         if request.user.is_authenticated:
@@ -156,7 +162,7 @@ class CartView(generics.GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class ClearCartView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         if request.user.is_authenticated:
@@ -179,7 +185,7 @@ class CheckoutView(generics.GenericAPIView):
         contact_info = user.phone_number  # Assuming contact_info is stored in user model
         payment_type = request.data.get('payment_type')
 
-        print("Starting checkout process...")
+        logger.info("Starting checkout process...")
         if not address or not contact_info:
             return Response({"detail": "Address or contact information is missing."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -224,9 +230,9 @@ class CheckoutView(generics.GenericAPIView):
 
         if payment_type == 'card':
             try:
-                print("Sending payment request to Zarinpal...")
+                logger.info("Sending payment request to Zarinpal...")
                 result = send_zarinpal_request(total_price, f"Payment for order {order.transaction_id}", user.phone_number, CallbackURL)
-                print(f"Payment request result: {result}")
+                logger.debug("Payment request result: %s", result)
                 if result['status']:
                     order.payment_authority = result['authority']
                     order.save()
@@ -248,9 +254,9 @@ class PaymentVerifyView(generics.GenericAPIView):
     def get(self, request, authority):
         order = get_object_or_404(Order, payment_authority=authority)
 
-        print("Verifying payment with Zarinpal...")
+        logger.info("Verifying payment with Zarinpal...")
         result = verify_zarinpal_payment(order.total_price, authority)
-        print(f"Payment verification result: {result}")
+        logger.debug("Payment verification result: %s", result)
         if result['status']:
             order.is_paid = True
             order.status = 'COMPLETED'
@@ -280,15 +286,16 @@ class OrderListView(generics.ListAPIView):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
+        base_qs = Order.objects.select_related('user').prefetch_related('items__product')
         if 'all' in self.request.GET and self.request.user.is_staff:
-            return Order.objects.all()
+            return base_qs
         elif 'details' in self.request.GET:
             transaction_id = self.request.GET.get('transaction_id')
-            return Order.objects.filter(transaction_id=transaction_id)
-        return Order.objects.filter(user=self.request.user).order_by('-created_at')
+            return base_qs.filter(transaction_id=transaction_id)
+        return base_qs.filter(user=self.request.user).order_by('-created_at')
     
 class AdminOrderListView(generics.ListAPIView):
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().select_related('user').prefetch_related('items__product')
     permission_classes = [IsAdminUser]
     serializer_class = OrderSerializer
 
@@ -300,9 +307,10 @@ class OrderDetailView(generics.RetrieveAPIView):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
+        qs = Order.objects.select_related('user').prefetch_related('items__product')
         if self.request.user.is_staff:
-            return Order.objects.all()
-        return Order.objects.filter(user=self.request.user)
+            return qs
+        return qs.filter(user=self.request.user)
 
     def get_object(self):
         transaction_id = self.kwargs.get('transaction_id')

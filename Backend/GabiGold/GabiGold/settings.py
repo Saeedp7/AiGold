@@ -43,9 +43,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 AUTH_USER_MODEL = "Users.UserModel"
 # Application definition
 
-MELLIPAYAMAK_USERNAME = '09120929331'
-MELLIPAYAMAK_PASSWORD = 'Bb@12804002'
-MELLIPAYAMAK_SENDER_NUMBER = '10007136340201'
+MELLIPAYAMAK_USERNAME = os.environ.get('MELLIPAYAMAK_USERNAME')
+MELLIPAYAMAK_PASSWORD = os.environ.get('MELLIPAYAMAK_PASSWORD')
+MELLIPAYAMAK_SENDER_NUMBER = os.environ.get('MELLIPAYAMAK_SENDER_NUMBER')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -86,8 +86,22 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'otp': '5/min',
+    },
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
+CACHE_TTL = 300
 
 
 
@@ -156,8 +170,6 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
     'JTI_CLAIM': 'jti',
-    'USER_ID_FIELD': 'user_id',
-    'USER_ID_CLAIM': 'user_id',
 }
 
 # Password validation

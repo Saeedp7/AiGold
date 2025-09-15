@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.validators import RegexValidator, validate_email
-from django.utils import timezone
+
 
 phone_regex = RegexValidator(
     regex=r"\d{11}", message="Phone Number Must Be 11 Digits Only."

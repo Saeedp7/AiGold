@@ -1,10 +1,15 @@
-from django_cron import CronJobBase, Schedule
-from .tasks import fetch_gold_price
-from products.models import Product
-from products.utils import get_latest_gold_price
-from decimal import Decimal
-from .utils import send_sms
+import logging
 import math
+from decimal import Decimal
+
+from django_cron import CronJobBase, Schedule
+
+from products.models import Product
+from products.tasks import fetch_gold_price
+from products.utils import get_latest_gold_price, send_sms
+
+
+logger = logging.getLogger(__name__)
 
 class FetchGoldPriceCronJob(CronJobBase):
     RUN_EVERY_MINS = 60  # every hour
@@ -26,7 +31,6 @@ class FetchProductPriceCronJob(CronJobBase):
         if gold_price_per_gram is not None:
             products = Product.objects.all()
             for product in products:
-                old_price = product.price
                 product_price = product.weight * gold_price_per_gram
                 wage = (product.wage / 100) * product_price
                 income = (product_price + wage) * Decimal(0.07)
@@ -41,8 +45,8 @@ class FetchProductPriceCronJob(CronJobBase):
 
             send_sms(
                 '09120929331',  # Replace with actual phone number
-                'قیمت محصولات سایت به روز رسانی گردید'
+                'قیمت محصولات سایت به روز رسانی گردید',
             )
-            print('Successfully updated products prices')
+            logger.info('Successfully updated products prices')
         else:
-           print('Failed to retrieve gold price')
+            logger.warning('Failed to retrieve gold price')
