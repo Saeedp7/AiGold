@@ -82,7 +82,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext js,jsx",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -113,7 +115,8 @@
     "postcss": "^8.4.41",
     "postcss-cli": "^11.0.0",
     "postcss-loader": "^8.1.1",
-    "webpack-bundle-analyzer": "^4.10.2"
+    "webpack-bundle-analyzer": "^4.10.2",
+    "prettier": "^3.3.2"
   },
   "jest": {
     "roots": [

@@ -8,7 +8,7 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const token = sessionStorage.getItem("access_token") || localStorage.getItem("access_token");
+  const token = localStorage.getItem("access_token");
 
   useEffect(() => {
     fetchUsers();

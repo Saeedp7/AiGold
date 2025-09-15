@@ -22,7 +22,7 @@ const Cart = (props) => {
   const [show, setShow] = useState(false); // State to handle modal visibility
   const cart = useSelector((state) => state.cart);
   const dispatchAction = useDispatch();
-  const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+  const token = localStorage.getItem('access_token');
   const navigate = useNavigate();
 
   useEffect(() => {

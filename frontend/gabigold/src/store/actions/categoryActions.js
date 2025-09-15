@@ -1,11 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { BACKEND_URL } from '../../components/utils/api';
+import axiosInstance from '../../components/utils/axiosinterceptor';
 
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async () => {
-    const response = await axios.get(`${BACKEND_URL}/shop/categories/`);
+    const response = await axiosInstance.get('/shop/categories/');
     return response.data;
   }
 );

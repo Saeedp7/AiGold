@@ -15,7 +15,7 @@ const AdminTicketList = () => {
   const [ticketsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+  const token = sessionStorage.getItem('access_token');
   const navigate = useNavigate();
 
   useEffect(() => {

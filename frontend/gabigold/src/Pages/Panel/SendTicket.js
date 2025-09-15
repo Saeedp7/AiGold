@@ -11,7 +11,7 @@ const SendTicket = () => {
     const [loading, setLoading] = useState(false);
     const [category, setCategory] = useState('');
     const [attachments, setAttachments] = useState([{ id: 1, file: null }]);
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
     const navigate = useNavigate();
 
     useEffect(() => {

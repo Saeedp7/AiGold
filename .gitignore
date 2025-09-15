@@ -53,10 +53,14 @@ media/
 # Environments
 .env
 .env.local
-.env.production
+
 .env.staging
 .env.test
 .env.*.bkp
+
+# Frontend build output
+Frontend/
+
 
 # PyCharm
 .idea/

@@ -11,7 +11,7 @@ const ProfileUpdate = () => {
     const [loading, setLoading] = useState(false);
     const [userData, setUserData] = useState(null);
     const [updated, setUpdated] = useState(false); // New state for triggering re-fetch
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
 
     useEffect(() => {
         async function fetchData() {

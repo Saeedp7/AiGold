@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const UserProfileDashboard = () => {
   const [orders, setOrders] = useState([]);
   const user = useSelector((state) => state.auth.user);
-  const token = sessionStorage.getItem("access_token") || localStorage.getItem("access_token");
+  const token = localStorage.getItem("access_token");
 
   useEffect(() => {
     fetchOrders();

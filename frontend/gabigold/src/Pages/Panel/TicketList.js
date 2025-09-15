@@ -11,7 +11,7 @@ const TicketList = () => {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('all');
     const navigate = useNavigate();
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
 
     // States to store the counts of tickets by status
     const [ticketCounts, setTicketCounts] = useState({

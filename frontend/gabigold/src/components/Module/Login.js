@@ -14,7 +14,7 @@ const Login = () => {
     const [rememberMe, setRememberMe] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const accessToken = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem('access_token');
 
     useEffect(() => {
         if (accessToken) {

@@ -25,7 +25,7 @@ const initialProductState = {
 const NewProductForm = ({ categories }) => {
     const [product, setProduct] = useState(initialProductState);
     const [images, setImages] = useState([]);
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = sessionStorage.getItem('access_token');
 
     const handleChange = (e) => {
         const { name, value } = e.target;

@@ -1,8 +1,8 @@
-import './css/gabi.css'
-import React from 'react';
+import './css/gabi.css';
+import React, { Suspense, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom';
-import "react-datetime/css/react-datetime.css";
+import 'react-datetime/css/react-datetime.css';
 import RootLayout from './components/Module/RootLayout';
 import MainContent from './Pages/content';
 import Contact from './Pages/Contact';
@@ -12,43 +12,48 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor} from './store/configureStore';
 // import LivePrice, { loader as PriceLoader } from './pages/Price';
-import Login from './components/Module/Login';
-import Signup from './Pages/Signup';
-import RecoverPassword from './Pages/Forget';
-import Shop from './components/Module/ShopHeader';
-import ProductCat from './Pages/ProductCat';
-import ProductDetail from './Pages/ProductDetails';
-import PanelSideBar from './Pages/Panel/PanelSidebar';
-import Checkout from './Pages/Checkout';
-import PrivateRoute from './components/Module/PrivateRoute';
-import Dashboard from './Pages/Panel/Dashboard';
-import ProfileUpdate from './Pages/Panel/ProfileUpdate';
 import { logout } from './store/actions/authActions';
 import { isTokenExpired } from './components/utils/CheckToken';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import Orders from './Pages/Panel/Orders';
-import OrderDetails from './Pages/Panel/OrderDetails';
-import CheckoutComplete from './Pages/CheckoutComplete';
-import TicketList from './Pages/Panel/TicketList';
-import SendTicket from './Pages/Panel/SendTicket';
-import TicketDetails from './Pages/Panel/TicketDetails';
-import NotAuthorized from './Pages/NotAuthorized';
-import ChangePassword from './Pages/Panel/ChangePassword';
-import AdminRoute from './components/Module/AdminRoute';
-import CategoryList from './Pages/Admin/CategoryList';
-import ProductList from './Pages/Admin/ProductList';
-import AddProduct from './Pages/Admin/AddProduct';
-import AdminOrderDetails from './Pages/Admin/AdminOrderDetails';
-import OrdersList from './Pages/Admin/Orderlist';
-import AdminTicketList from './Pages/Admin/AdminTicketList';
-import SearchResults from './Pages/SearchResult';
-import ReviewList from './Pages/Admin/ReviewList';
-import UserList from './Pages/Admin/UserList';
-import LivePriceComponent from './Pages/LivePrice';
-import GoldPriceCalculatorPage from './Pages/GoldCalculator';
-import Analytics from './Pages/Admin/Analytics';
-import CronJobs from './Pages/Admin/Cronjobs';
+
+const RootLayout = React.lazy(() => import('./components/Module/RootLayout'));
+const MainContent = React.lazy(() => import('./Pages/content'));
+const Contact = React.lazy(() => import('./Pages/Contact'));
+const AboutUs = React.lazy(() => import('./Pages/About'));
+const Rules = React.lazy(() => import('./Pages/Rules'));
+const Login = React.lazy(() => import('./components/Module/Login'));
+const Signup = React.lazy(() => import('./Pages/Signup'));
+const RecoverPassword = React.lazy(() => import('./Pages/Forget'));
+const Shop = React.lazy(() => import('./components/Module/ShopHeader'));
+const ProductCat = React.lazy(() => import('./Pages/ProductCat'));
+const ProductDetail = React.lazy(() => import('./Pages/ProductDetails'));
+const PanelSideBar = React.lazy(() => import('./Pages/Panel/PanelSidebar'));
+const Checkout = React.lazy(() => import('./Pages/Checkout'));
+const PrivateRoute = React.lazy(() => import('./components/Module/PrivateRoute'));
+const Dashboard = React.lazy(() => import('./Pages/Panel/Dashboard'));
+const ProfileUpdate = React.lazy(() => import('./Pages/Panel/ProfileUpdate'));
+const Orders = React.lazy(() => import('./Pages/Panel/Orders'));
+const OrderDetails = React.lazy(() => import('./Pages/Panel/OrderDetails'));
+const CheckoutComplete = React.lazy(() => import('./Pages/CheckoutComplete'));
+const TicketList = React.lazy(() => import('./Pages/Panel/TicketList'));
+const SendTicket = React.lazy(() => import('./Pages/Panel/SendTicket'));
+const TicketDetails = React.lazy(() => import('./Pages/Panel/TicketDetails'));
+const NotAuthorized = React.lazy(() => import('./Pages/NotAuthorized'));
+const ChangePassword = React.lazy(() => import('./Pages/Panel/ChangePassword'));
+const AdminRoute = React.lazy(() => import('./components/Module/AdminRoute'));
+const CategoryList = React.lazy(() => import('./Pages/Admin/CategoryList'));
+const ProductList = React.lazy(() => import('./Pages/Admin/ProductList'));
+const AddProduct = React.lazy(() => import('./Pages/Admin/AddProduct'));
+const AdminOrderDetails = React.lazy(() => import('./Pages/Admin/AdminOrderDetails'));
+const OrdersList = React.lazy(() => import('./Pages/Admin/Orderlist'));
+const AdminTicketList = React.lazy(() => import('./Pages/Admin/AdminTicketList'));
+const SearchResults = React.lazy(() => import('./Pages/SearchResult'));
+const ReviewList = React.lazy(() => import('./Pages/Admin/ReviewList'));
+const UserList = React.lazy(() => import('./Pages/Admin/UserList'));
+const LivePriceComponent = React.lazy(() => import('./Pages/LivePrice'));
+const GoldPriceCalculatorPage = React.lazy(() => import('./Pages/GoldCalculator'));
+const Analytics = React.lazy(() => import('./Pages/Admin/Analytics'));
+const CronJobs = React.lazy(() => import('./Pages/Admin/Cronjobs'));
 
 const router = createBrowserRouter([
   {
@@ -137,7 +142,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      const accessToken = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+      const accessToken = localStorage.getItem('access_token');
       if (accessToken && isTokenExpired(accessToken)) {
           dispatch(logout());
       }
@@ -145,8 +150,10 @@ function App() {
 
   return (
     <PersistGate loading={null} persistor={persistor}>
+      <Suspense fallback={<div>Loading...</div>}>
         <RouterProvider router={router} />
-      </PersistGate>
+      </Suspense>
+    </PersistGate>
   );
 }
 

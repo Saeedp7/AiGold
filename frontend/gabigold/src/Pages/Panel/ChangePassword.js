@@ -12,7 +12,7 @@ const ChangePassword = () => {
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const user = useSelector((state) => state.auth.user);
-  const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+  const token = localStorage.getItem('access_token');
 
   const handleSendOtp = async () => {
     try {

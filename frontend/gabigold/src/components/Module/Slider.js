@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import image1 from '../../assets/images/Slide1.JPG';
-import image2 from '../../assets/images/Slide2.png';
-import image3 from '../../assets/images/Slide3.png';
+import image1 from '../../assets/images/Slide1.webp';
+import image2 from '../../assets/images/Slide2.webp';
+import image3 from '../../assets/images/Slide3.webp';
 
 
 export const SliderData = [

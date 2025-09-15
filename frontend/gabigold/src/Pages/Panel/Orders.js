@@ -10,7 +10,7 @@ const Orders = () => {
     const [loading, setLoading] = useState(true);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [activeTab, setActiveTab] = useState('all');
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
 
     // States to store the counts of orders by status
     const [orderCounts, setOrderCounts] = useState({

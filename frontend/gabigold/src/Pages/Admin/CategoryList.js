@@ -13,8 +13,7 @@ const CategoryList = () => {
   const [newCategory, setNewCategory] = useState({ name: '', meta_keywords: '', meta_description: '' });
   const [loading, setLoading] = useState(false);
   const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
-  const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
-  const dispatch = useDispatch();
+  const token = sessionStorage.getItem('access_token');
 
   useEffect(() => {
     const fetchCategories = async () => {

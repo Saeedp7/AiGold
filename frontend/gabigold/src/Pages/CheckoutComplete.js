@@ -14,7 +14,7 @@ const CheckoutComplete = () => {
     const [paymentStatus, setPaymentStatus] = useState(null);
     const authority = searchParams.get("Authority");
     const status = searchParams.get("Status");
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
     const navigate = useNavigate();
     const dispatchAction = useDispatch();
 

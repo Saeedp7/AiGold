@@ -16,7 +16,7 @@ const AdminOrderDetails = () => {
   }, []);
 
   const fetchOrderDetails = async () => {
-    const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
     try {
       const response = await axiosInstance.get(`${BACKEND_URL}/cart/orders/${transaction_id}/`, {
         headers: {
@@ -42,8 +42,7 @@ const AdminOrderDetails = () => {
   };
 
   const updateOrderStatus = async (newStatus, trackingNumber = '') => {
-    const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
-    const data = { status: newStatus };
+    const token = localStorage.getItem('access_token');
     if (newStatus === 'SHIPPED') {
       data.tracking_number = trackingNumber;
     }

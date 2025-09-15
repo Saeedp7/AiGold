@@ -18,7 +18,7 @@ const OrdersList = () => {
   }, []);
 
   const fetchOrders = async () => {
-    const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
     try {
       const response = await axiosInstance.get(`${BACKEND_URL}/cart/adminorders/`, {
         headers: {

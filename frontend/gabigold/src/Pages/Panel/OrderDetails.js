@@ -9,7 +9,7 @@ const OrderDetails = () => {
     const { transaction_id } = useParams();
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
 
     useEffect(() => {
         async function fetchOrderDetails() {

@@ -10,7 +10,7 @@ const ReviewsAndRatings = ({ currentProductId }) => {
   const [reviewsPerPage] = useState(4);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviewText, setReviewText] = useState("");
-  const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+  const token = localStorage.getItem('access_token');
 
   useEffect(() => {
     fetchReviews();

@@ -11,7 +11,7 @@ const ReviewList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 20;
-  const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+  const token = localStorage.getItem('access_token');
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const CronJobTrigger = () => {
     const [loading, setLoading] = useState(false);
     const [selectedJob, setSelectedJob] = useState('');
-    const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
 
     const handleTriggerJob = async () => {
         if (!selectedJob) {

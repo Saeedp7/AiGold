@@ -52,18 +52,15 @@ export const register = (userData) => async dispatch => {
 export const login = (userData) => async dispatch => {
     try {
         const response = await axiosInstance.post(`${BACKEND_URL}/users/login/`, userData);
-        const storage = userData.rememberMe ? localStorage : sessionStorage;
         dispatch({ type: 'LOGIN_SUCCESS', payload: response.data.user });
-        storage.setItem('access_token', response.data.access);
-        storage.setItem('refresh_token', response.data.refresh);
+        localStorage.setItem('access_token', response.data.access);
+        localStorage.setItem('refresh_token', response.data.refresh);
         const { exp } = jwtDecode(response.data.access);
         const expirationTime = (exp * 1000) - Date.now();
         setTimeout(() => {
             dispatch(logout());
         }, expirationTime);
-        const cartResponse = await axiosInstance.get(`${BACKEND_URL}/cart/cart/`, {
-            headers: { 'Authorization': `Bearer ${response.data.access}` }
-        });
+        const cartResponse = await axiosInstance.get('/cart/cart/');
         dispatch(cartActions.setCart(cartResponse.data));  // Dispatch setCart action with cart data
         toast.success('ورود موفقیت آمیز بود');
         return { success: true, data: response.data };
@@ -81,11 +78,9 @@ export const login = (userData) => async dispatch => {
 export const logout = () => dispatch => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    sessionStorage.removeItem('access_token');
-    sessionStorage.removeItem('refresh_token');
     dispatch({ type: 'LOGOUT' });
     toast.success('خروج موفقیت آمیز بود');
-    window.location.href = '/login'; 
+    window.location.href = '/login';
 };
 
 export const requestPasswordReset = (phoneNumber) => async dispatch => {
