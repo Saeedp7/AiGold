@@ -193,32 +193,17 @@ AUTH_PASSWORD_VALIDATORS = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = [
-    'authorization',  # Add this line
+    'authorization',  
     'content-type',
     'x-csrftoken',
     'x-xsrf-token',
-    # Add any other headers you might need
 ]
+# Frontend domains allowed to call the API
+cors_origins = os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:3000")
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins.split(",") if origin.strip()]
 
-# To allow specific domains
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
-    'https://www.gabigold.ir',
-    'https://gabigold.ir',
-    'https://api.gabigold.ir',
-]
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
-    'https://www.gabigold.ir',
-    'https://gabigold.ir',
-    'https://api.gabigold.ir',
-]
+# Use the same origins for CSRF protection
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
