@@ -27,11 +27,15 @@ class Category(models.Model):
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
-    category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        Category,
+        related_name='products',
+        on_delete=models.CASCADE,
+    )
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     brand = models.CharField(max_length=100)
-    product_code = models.CharField(max_length=50)
+    product_code = models.CharField(max_length=50, db_index=True)
     product_standard = models.CharField(max_length=50)
     weight = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
     wage = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
@@ -48,6 +52,12 @@ class Product(models.Model):
     owner = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['category']),
+            models.Index(fields=['product_code']),
+        ]
 
     def save(self, *args, **kwargs):
         # Calculate the price

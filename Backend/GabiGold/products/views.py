@@ -59,7 +59,10 @@ class CategoryDetailAPIView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
    
 class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.all().select_related('category').prefetch_related('images')
+    queryset = (
+        Product.objects.select_related('category')
+        .prefetch_related('images', 'reviews', 'ratings')
+    )
     serializer_class = ProductSerializer
 
 class ProductCreateView(generics.CreateAPIView):
@@ -68,7 +71,10 @@ class ProductCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAdminUser]
 
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Product.objects.all().select_related('category').prefetch_related('images')
+    queryset = (
+        Product.objects.select_related('category')
+        .prefetch_related('images', 'reviews', 'ratings')
+    )
     serializer_class = ProductSerializer
     
 class ProductUpdateView(generics.UpdateAPIView):
@@ -95,36 +101,52 @@ class ProductUpdateView(generics.UpdateAPIView):
 
         
 class ProductByCategoryListView(generics.ListAPIView):
-    queryset = Product.objects.all().select_related('category').prefetch_related('images')
     serializer_class = ProductSerializer
-    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
-    ordering_fields = ['product_id']  # Make sure 'created_at' is a field in your model
-    ordering = ['-product_id']  # Default ordering
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['product_id']
+    ordering = ['-product_id']
 
 
 
     def get_queryset(self):
         category_id = self.kwargs['category_id']
         return (
-            Product.objects.filter(category__id=category_id)
+            Product.objects.filter(category_id=category_id)
             .select_related('category')
-            .prefetch_related('images')
+            .prefetch_related('images', 'reviews', 'ratings')
             .order_by('product_id')
         )
-    
-    queryset = Product.objects.all().select_related('category').prefetch_related('images')
+
+class ProductSearchListView(generics.ListAPIView):
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
-    search_fields = ['name', 'brand', 'product_code', 'product_standard', 'stone_type', 'stone_material']  # Removed 'description' since it's not a field
+    search_fields = [
+        'name',
+        'brand',
+        'product_code',
+        'product_standard',
+        'stone_type',
+        'stone_material',
+    ]
     ordering_fields = ['calculated_price', 'weight', 'wage']
-    filterset_fields = ['product_code', 'weight', 'wage', 'is_new', 'is_featured', 'is_available']
-
+    filterset_fields = [
+        'product_code',
+        'weight',
+        'wage',
+        'is_new',
+        'is_featured',
+        'is_available',
+    ]
     def get_queryset(self):
-        queryset = Product.objects.all().select_related('category').prefetch_related('images')
-        min_weight = self.request.query_params.get('min_weight', None)
-        max_weight = self.request.query_params.get('max_weight', None)
-        min_wages = self.request.query_params.get('min_wages', None)
-        max_wages = self.request.query_params.get('max_wages', None)
+        queryset = (
+                    Product.objects.select_related('category')
+                    .prefetch_related('images', 'reviews', 'ratings')
+                )
+        params = self.request.query_params
+        min_weight = params.get('min_weight')
+        max_weight = params.get('max_weight')
+        min_wages = params.get('min_wages')
+        max_wages = params.get('max_wages')
 
         if min_weight is not None:
             queryset = queryset.filter(weight__gte=min_weight)
